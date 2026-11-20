@@ -190,6 +190,67 @@ html,body{background:var(--paper)}
 .tip-line b,.footer a{color:var(--primary)}
 .coming-soon-card{border-color:#ddd6c6}
 .bubble-face.img{background:none!important;padding:0;overflow:hidden;box-shadow:0 2px 6px rgba(43,53,70,.15)}.bubble-face.img img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+
+/* ===== THEME POP（タブレット学習・ゲームアプリ風：白×ビビッドブルー×イエロー） ===== */
+:root{
+  --ink:#1f2a44; --paper:#f4f7fc; --card:#ffffff; --gray:#66728a; --line:#e3e9f3;
+  --primary:#2f86f6; --primary-d:#1d68d0; --gold-deep:#2f86f6;
+  --accent:#ffc928; --accent-d:#e0a400; --coral:#ff7a59; --night:#1f5fd0; --sun:#ffc928;
+  --shadow:0 1px 2px rgba(31,42,68,.05),0 8px 22px rgba(47,134,246,.10);
+}
+html,body{background:var(--paper)}
+.aud-tabs{background:rgba(244,247,252,.92)}
+.aud-tabs-inner{background:#fff;box-shadow:0 2px 0 var(--line),0 6px 16px rgba(31,42,68,.06)}
+.aud-tab[aria-selected="true"]{background:var(--primary);box-shadow:0 3px 0 var(--primary-d)}
+/* ヒーロー：ビビッドな青＋ポップな図形 */
+.hero{background:#2f86f6!important;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;opacity:1;background-size:auto;
+  background-image:
+   radial-gradient(circle at 101% 3%,#ffd84a 0 52px,transparent 53px),
+   radial-gradient(circle at 96% 62%,rgba(255,255,255,.16) 0 90px,transparent 91px),
+   radial-gradient(circle at 6% 92%,#ff8fb1 0 26px,transparent 27px),
+   radial-gradient(circle at 18% 8%,rgba(255,255,255,.14) 0 60px,transparent 61px),
+   radial-gradient(rgba(255,255,255,.22) 1.2px,transparent 1.6px);
+  background-size:auto,auto,auto,auto,22px 22px}
+.hero::after{content:'';position:absolute;right:-60px;bottom:-90px;width:300px;height:300px;border-radius:50%;background:#5aa2ff;opacity:.55}
+.hero-headline{text-shadow:0 3px 0 rgba(20,70,160,.35)}
+.hero-headline .hl{color:#ffe14d}
+.brand-badge{background:#fff;color:var(--primary);border:0;box-shadow:0 3px 0 rgba(20,70,160,.25)}
+.hero-stat{background:rgba(255,255,255,.16);border:2px solid rgba(255,255,255,.28)}
+.hero-stat-num{color:#fff}
+.hero-stat-friendly{box-shadow:0 5px 0 rgba(20,70,160,.28),0 12px 24px rgba(20,70,160,.18)}
+.hero-stat-friendly-text{color:var(--coral)}
+.chat-demo{background:#fff;box-shadow:0 6px 0 rgba(20,70,160,.22),0 22px 40px rgba(20,70,160,.22)}
+.chat-demo-head{color:var(--primary)}
+.chat-demo-head span:last-child{background:#fff3cc;color:#a36b00}
+.bubble-row.teacher .bubble{background:#f0f4fa}
+.bubble-row.teacher .bubble-face{background:#fff3cc;color:#a36b00}
+.bubble-row.me .bubble{background:var(--primary)}
+.bubble-row.me .bubble-face{background:var(--ink)}
+.bubble em{color:#ff6b4a}
+.cast-avatar .face{border:3px solid #fff;box-shadow:0 4px 0 rgba(20,70,160,.25)}
+/* セクション・カード */
+.section-label{color:var(--primary)}
+.section-title{color:var(--ink)}
+.subject-card{box-shadow:0 3px 0 var(--line),0 8px 20px rgba(31,42,68,.06)}
+.subject-card:hover{box-shadow:0 5px 0 var(--line),0 14px 28px rgba(31,42,68,.1)}
+.subject-arrow{background:var(--primary);box-shadow:0 2px 0 var(--primary-d)}
+.subject-trial-badge{box-shadow:none}
+.coming-soon-card{border-color:#cfd9ea}
+/* 料金 */
+.price-box,.tip-box,.about-box{background:#fff;box-shadow:0 3px 0 var(--line),0 8px 20px rgba(31,42,68,.06)}
+.price-item{background:#f4f7fc}
+.price-item.best{background:var(--primary)}
+.price-item.best::before{background:var(--coral);box-shadow:0 2px 0 #d85a3c}
+.price-note strong{color:#ffe14d}
+.price-item:not(.best) .price-note strong{color:var(--coral)}
+.price-promise{background:#e9f8ef;color:#1d6b40}
+/* セット購入 */
+.bundle-card{background:linear-gradient(135deg,#2f86f6 0%,#1f5fd0 100%);box-shadow:0 6px 0 #184fae,0 18px 34px rgba(31,95,208,.28)}
+.bundle-card::after{background:radial-gradient(circle,#ffd84a 0 38%,transparent 39%);width:150px;height:150px;right:-30px;top:-30px;opacity:.9}
+.bundle-card-badge{background:#fff;color:var(--primary)}
+.bundle-card-arrow-text{background:var(--accent);color:#3a2a00;box-shadow:0 5px 0 var(--accent-d)}
+.tip-line b,.footer a{color:var(--primary)}
 </style>
 </head>
 <body>
