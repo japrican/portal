@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>学びのミカタ｜小・中学生の学習アプリ</title>
+<meta name="description" content="1日1単元、スマホでサクッと。要点を読んで5問とく、小・中学生のための学習アプリ。インストール不要・7日間無料。">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:title" content="学びのミカタ｜小・中学生の学習アプリ">
+<meta property="og:description" content="1日1単元、スマホでサクッと。インストール不要・7日間無料。">
+<meta property="og:image" content="https://manabino-mikata.com/portal/img/chu.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800&family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3c3c3c;--body:#4b4b4b;--mute:#777;--line:#e5e5e5;--bg2:#f7f7f7;
+ --green:#58cc02;--green-d:#58a700;--blue:#1cb0f6;--blue-d:#1899d6;--sun:#ffc800;--sun-d:#e5a500;
+ --round:'M PLUS Rounded 1c','BIZ UDPGothic',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{overflow-x:hidden;background:#fff;color:var(--body);font-family:'BIZ UDPGothic','Hiragino Sans','Noto Sans JP',sans-serif;font-weight:700;line-height:1.75;-webkit-text-size-adjust:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+.ic{width:1em;height:1em;display:inline-block;vertical-align:-.13em;flex-shrink:0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+h1,h2,h3,.rd{font-family:var(--round);font-weight:800;color:var(--ink)}
+/* ヘッダー */
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);border-bottom:2px solid var(--line);backdrop-filter:blur(6px)}
+.hd{display:flex;align-items:center;gap:10px;height:62px}
+.mark{width:38px;height:38px;border-radius:11px;background:var(--green);box-shadow:0 3px 0 var(--green-d);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--round);font-weight:800;font-size:20px}
+.brand{font-family:var(--round);font-weight:800;font-size:19px;color:var(--ink)}
+.hd nav{margin-left:auto;display:flex;gap:6px}
+.hd nav a{font-size:13px;color:var(--mute);padding:6px 10px;border-radius:10px}
+.hd nav a:hover{background:var(--bg2)}
+@media(max-width:620px){.hd nav{display:none}}
+/* ヒーロー */
+.hero{overflow-x:clip;display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;padding-top:52px;padding-bottom:40px}
+.hero h1{font-size:44px;line-height:1.3;letter-spacing:.01em}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero p.lead{font-size:17px;color:var(--body);margin:16px 0 22px;max-width:30em}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.facts span{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--line);border-radius:12px;padding:4px 12px;font-size:13px;color:var(--ink)}
+.facts .ic{color:var(--green);font-size:16px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:16px;padding:14px 22px;font-family:var(--round);font-weight:800;font-size:16px;letter-spacing:.03em;transition:transform .08s}
+.btn:active{transform:translateY(3px)}
+.btn.pri{background:var(--green);color:#fff;box-shadow:0 4px 0 var(--green-d)}
+.btn.sub{background:#fff;border:2px solid var(--line);border-bottom-width:4px;color:var(--blue-d)}
+.phones{position:relative;height:500px}
+.phone{position:absolute;width:256px;border-radius:34px;border:8px solid #1f1f1f;background:#fff;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.14)}
+.phone img{display:block;width:100%;height:auto}
+.phone.a{right:0;top:0;transform:rotate(3deg)}
+.phone.b{left:0;top:56px;transform:rotate(-4deg)}
+.phone small{position:absolute;left:0;right:0;bottom:-30px;text-align:center}
+.tagp{position:absolute;z-index:3;font-family:var(--round);font-weight:800;font-size:13px;border-radius:12px;padding:4px 12px;color:#fff}
+.tagp.a{right:28px;top:-14px;background:#ff8a00;box-shadow:0 3px 0 #d97000}
+.tagp.b{left:20px;top:40px;background:var(--green);box-shadow:0 3px 0 var(--green-d)}
+@media(max-width:860px){.hero{grid-template-columns:1fr;padding-top:28px;padding-bottom:20px}.hero h1{font-size:34px}.phones{height:430px;max-width:440px;margin:0 auto;width:100%}.phone{width:200px}}
+@media(max-width:420px){.phone.a{right:12px}.phone.b{left:8px}.hero h1{font-size:29px}.phones{height:370px}.phone{width:172px;border-width:6px;border-radius:28px}}
+/* 使い方 */
+.sec{padding:48px 0}
+.sec.gray{background:var(--bg2)}
+.sh{text-align:center;margin-bottom:26px}
+.sh small{display:block;font-family:var(--round);font-weight:800;color:var(--green);font-size:13px;letter-spacing:.12em}
+.sh h2{font-size:28px;line-height:1.4}
+.sh p{color:var(--mute);font-size:14px;margin-top:6px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.step{background:#fff;border:2px solid var(--line);border-bottom-width:4px;border-radius:20px;padding:20px}
+.step .no{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--round);font-weight:800;font-size:20px;color:#fff;margin-bottom:10px}
+.step h3{font-size:18px;margin-bottom:4px}
+.step p{font-size:14px;color:var(--body)}
+@media(max-width:760px){.steps{grid-template-columns:1fr}}
+/* 対象タブ */
+.aud{display:flex;gap:8px;justify-content:center;margin:0 auto 24px;max-width:520px}
+.aud button{flex:1;background:#fff;border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;padding:10px 6px 8px;text-align:center}
+.aud b{display:block;font-family:var(--round);font-weight:800;font-size:17px;color:var(--ink);line-height:1.3}
+.aud i{display:block;font-style:normal;font-size:11px;color:var(--mute)}
+.aud button.on{background:var(--blue);border-color:var(--blue-d)}
+.aud button.on b,.aud button.on i{color:#fff}
+.aud button:active{transform:translateY(2px)}
+.pane{display:none}.pane.on{display:block;animation:fade .25s}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}}
+/* 教科カード */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:860px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.grid{grid-template-columns:1fr}}
+.card{position:relative;display:flex;flex-direction:column;background:#fff;border:2px solid var(--line);border-bottom-width:5px;border-radius:20px;padding:18px;transition:transform .1s}
+.card:hover{transform:translateY(-2px)}
+.card:active{transform:translateY(2px)}
+.ch{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.logo{width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--round);font-weight:800;font-size:26px;flex-shrink:0}
+.ch h3{font-size:20px;line-height:1.25}
+.ch small{display:block;font-size:12px;color:var(--mute);font-family:'BIZ UDPGothic',sans-serif}
+.card p{font-size:14px;color:var(--body);flex:1}
+.cf{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:12px;border-top:2px dashed var(--line)}
+.free{font-size:12px;color:var(--green-d);background:#e9fbd9;border-radius:8px;padding:2px 8px}
+.price{font-size:13px;color:var(--mute)}
+.go{margin-left:auto;display:flex;align-items:center;gap:4px;font-family:var(--round);font-weight:800;font-size:14px;color:var(--blue-d)}
+.lvb{position:absolute;top:14px;right:14px;font-family:var(--round);font-weight:800;font-size:12px;color:#fff;border-radius:9px;padding:1px 9px}
+.soon{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:2px dashed var(--line);border-radius:20px;padding:18px;color:var(--mute);font-size:13px}
+.soon b{font-family:var(--round);color:var(--ink);font-size:15px}
+/* 料金 */
+.prices{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:760px;margin:0 auto}
+@media(max-width:640px){.prices{grid-template-columns:1fr}}
+.pc{background:#fff;border:2px solid var(--line);border-bottom-width:5px;border-radius:22px;padding:22px;text-align:center;display:flex;flex-direction:column}
+.pc.best{border-color:#ffd15c;background:#fffbea}
+.pc .bd{align-self:center;font-family:var(--round);font-weight:800;font-size:12px;color:#fff;background:#ff9600;border-radius:10px;padding:2px 12px;margin-bottom:8px}
+.pc h3{font-size:17px}
+.pc .yen{font-family:var(--round);font-weight:800;font-size:42px;color:var(--ink);line-height:1.2;margin:4px 0}
+.pc .yen small{font-size:14px;color:var(--mute)}
+.pc .yen s{font-size:18px;color:#afafaf;margin-right:6px}
+.pc p{font-size:13px;color:var(--mute);flex:1;margin-bottom:14px}
+.pc .btn{width:100%}
+.btn.set{background:var(--sun);color:#3c3c3c;box-shadow:0 4px 0 var(--sun-d)}
+.btn.dis{background:#e5e5e5;color:#9b9b9b;box-shadow:0 4px 0 #cecece;pointer-events:none}
+.safe{max-width:760px;margin:18px auto 0;display:grid;gap:8px}
+.safe li{list-style:none;display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px 14px}
+.safe .ic{color:var(--green);font-size:20px;margin-top:2px}
+/* 追加・about */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:860px;margin:0 auto}
+@media(max-width:700px){.two{grid-template-columns:1fr}}
+.box{background:#fff;border:2px solid var(--line);border-radius:20px;padding:20px}
+.box h3{font-size:17px;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.box h3 .ic{color:var(--blue);font-size:22px}
+.box p,.box li{font-size:14px;color:var(--body)}
+.box ol{padding-left:1.3em}
+footer{border-top:2px solid var(--line);padding:28px 0 40px;text-align:center;font-size:13px;color:var(--mute)}
+footer .links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin:10px 0}
+footer a:hover{color:var(--blue-d)}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+ <div class="mark">ミ</div><div class="brand">学びのミカタ</div>
+ <nav><a href="#apps">教科を選ぶ</a><a href="#price">料金</a><a href="#about">学びのミカタとは</a></nav>
+</div></header>
+
+<main>
+<section class="wrap hero">
+ <div>
+  <h1>1日1単元、<br><em>スマホでサクッと。</em></h1>
+  <p class="lead">要点を読んで、問題をとく。まちがえた問題は復習リストへ。幼児から中学生までの学習アプリシリーズです。</p>
+  <div class="facts"><span data-i="check">インストール不要</span><span data-i="check">7日間無料・登録なし</span><span data-i="check">買い切り ¥980</span></div>
+  <div class="cta"><a class="btn pri" href="#apps">教科を選ぶ</a><a class="btn sub" href="#price">料金を見る</a></div>
+ </div>
+ <div class="phones" aria-hidden="true">
+  <span class="tagp b">小学生</span><div class="phone b"><img src="img/sho.webp" alt="" width="390" height="664" loading="eager"></div>
+  <span class="tagp a">中学生</span><div class="phone a"><img src="img/chu.webp" alt="" width="390" height="664" loading="eager"></div>
+ </div>
+</section>
+
+<section class="sec gray">
+ <div class="wrap">
+  <div class="sh"><small>HOW IT WORKS</small><h2>1回5分。毎日つづけられる</h2></div>
+  <div class="steps">
+   <div class="step"><div class="no" style="background:#1cb0f6">1</div><h3>要点を読む</h3><p>単元のポイントを3〜4行にしぼって表示。図や例題で、解き方をつかみます。</p></div>
+   <div class="step"><div class="no" style="background:#58cc02">2</div><h3>問題をとく</h3><p>選択肢の位置は毎回シャッフル。まちがえたときは、正解と理由をすぐに表示します。</p></div>
+   <div class="step"><div class="no" style="background:#ff9600">3</div><h3>記録がのびる</h3><p>星・レベル・連続学習日数がたまっていきます。まちがえた問題は復習リストでもう一度。</p></div>
+  </div>
+ </div>
+</section>
+
+<section class="sec" id="apps">
+ <div class="wrap">
+  <div class="sh"><small>SUBJECTS</small><h2>教科を選ぶ</h2><p>どの教科も、まずは7日間無料で使えます</p></div>
+  <div class="aud" role="tablist">
+   <button data-a="you"><b>キッズ</b><i>3〜6さい</i></button>
+   <button data-a="sho"><b>小学生</b><i>小1〜小6</i></button>
+   <button data-a="chu"><b>中学生</b><i>中1〜中3</i></button>
+  </div>
+
+  <div class="pane" id="p-sho"><div class="grid" id="g-sho"></div></div>
+  <div class="pane" id="p-chu"><div class="grid" id="g-chu"></div></div>
+  <div class="pane" id="p-you"><div class="grid" id="g-you"></div></div>
+ </div>
+</section>
+
+<section class="sec gray" id="price">
+ <div class="wrap">
+  <div class="sh"><small>PRICE</small><h2>料金（保護者の方へ）</h2><p>1回のお支払いで、ずっと使えます。月額料金はかかりません</p></div>
+  <div class="pane" id="pr-sho"><div class="prices">
+   <div class="pc"><h3>1教科ずつ</h3><div class="yen">¥980<small>（税込）</small></div><p>1回の購入で、1〜6年生（英語・社会・理科は3〜6年生）の全ステージが使えます。各アプリの中から購入できます。</p><a class="btn sub" href="#apps">教科を選ぶ</a></div>
+   <div class="pc best"><span class="bd">いちばんお得</span><h3>小学生6教科セット</h3><div class="yen"><s>¥5,880</s>¥2,980<small>（税込）</small></div><p>さんすう・こくご・かんじ・えいご・しゃかい・りか。単品でそろえるより ¥2,900 お得です。</p><a class="btn set" data-buy href="https://buy.stripe.com/TODO_sho_set">セットで購入する</a></div>
+  </div></div>
+  <div class="pane" id="pr-chu"><div class="prices">
+   <div class="pc"><h3>1教科ずつ</h3><div class="yen">¥980<small>（税込）</small></div><p>中1〜中3の全単元が使えます。苦手な教科だけ選べます。各アプリの中から購入できます。</p><a class="btn sub" href="#apps">教科を選ぶ</a></div>
+   <div class="pc best"><span class="bd">いちばんお得</span><h3>中学生6教科セット</h3><div class="yen"><s>¥5,880</s>¥2,980<small>（税込）</small></div><p>数学・英語・国語・理科・社会・歴史。単品でそろえるより ¥2,900 お得です。</p><a class="btn set" data-buy href="https://buy.stripe.com/fZu7sE1oQdzu41S1DU5wI01">セットで購入する</a></div>
+  </div></div>
+  <div class="pane" id="pr-you"><div class="prices" style="grid-template-columns:1fr;max-width:380px">
+   <div class="pc"><h3>学びのミカタ キッズ</h3><div class="yen">¥980<small>（税込）</small></div><p>ちえ・かず・もじ・ABCととけいの全32ステージと、知育ゲーム4種がこれ1本で使えます。購入はアプリ内の「おうちの方へ」から。</p><a class="btn sub" href="https://manabino-mikata.com/kids/">アプリを開く</a></div>
+  </div></div>
+  <ul class="safe">
+   <li><span data-i="check"></span>7日間の無料体験は、登録もお支払いも不要です</li>
+   <li><span data-i="check"></span>無料期間が終わっても、自動で課金されることはありません</li>
+   <li><span data-i="check"></span>お支払いは1回だけ。月額料金はかかりません</li>
+  </ul>
+ </div>
+</section>
+
+<section class="sec" id="about">
+ <div class="wrap two">
+  <div class="box"><h3><span data-i="phone"></span>ホーム画面に追加すると、アプリのように開けます</h3>
+   <ol><li>iPhone（Safari）：下の共有ボタン →「ホーム画面に追加」</li><li>Android（Chrome）：右上の︙メニュー →「ホーム画面に追加」</li></ol></div>
+  <div class="box"><h3><span data-i="heart"></span>学びのミカタとは</h3>
+   <p>教科書の言葉が難しくて、つまずいてしまう。そんな経験から生まれた学習アプリです。要点をしぼって、すぐに問題で確かめる。毎日少しずつ続けられることを大切にしています。</p></div>
+ </div>
+</section>
+</main>
+
+<footer><div class="wrap">
+ <div class="rd" style="color:var(--ink);font-size:16px">学びのミカタ</div>
+ <div class="links"><a href="./terms.html">利用規約・お問い合わせ</a><a href="./privacy.html">プライバシーポリシー</a><a href="./tokusho.html">特定商取引法に基づく表記</a></div>
+ <div>© 2026 学びのミカタ</div>
+</div></footer>
+
+<script>
+const I={check:'<svg viewBox="0 0 24 24" class="ic"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.5 12.5l3 3 6-6.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ arrow:'<svg viewBox="0 0 24 24" class="ic"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ phone:'<svg viewBox="0 0 24 24" class="ic"><rect x="6" y="2" width="12" height="20" rx="3" fill="currentColor"/><rect x="10" y="18" width="4" height="1.6" rx=".8" fill="#fff"/></svg>',
+ heart:'<svg viewBox="0 0 24 24" class="ic"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.1 4.3 2.4h2c.7-1.3 2.2-2.4 4.3-2.4 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" fill="currentColor"/></svg>'};
+document.querySelectorAll('[data-i]').forEach(e=>e.insertAdjacentHTML('afterbegin',I[e.dataset.i]));
+const B='https://manabino-mikata.com/';
+const APPS={
+ sho:[
+  ['sansu','さ','さんすう','小1〜小6','#ff8a00','#d97000','計算・図形・文章題。わかったらモンスターバトルでチャレンジ。'],
+  ['kokugo-sho','こ','こくご','小1〜小6','#e8508a','#c23a6f','「は・を・へ」から主語・述語、ことわざ、敬語まで。'],
+  ['kanji','か','かんじ','小1〜小6','#ff4b4b','#e02e2e','学年の配当漢字の読み・書き・部首・送りがな。'],
+  ['eigo','え','えいご','小3〜小6','#ce82ff','#a568cc','ネイティブ音声を聞きながら、あいさつ・単語・フレーズ。'],
+  ['shakai-sho','し','しゃかい','小3〜小6','#2b8be6','#1f6fbd','地図記号、都道府県、日本の国土、歴史人物、憲法。'],
+  ['rika-sho','り','りか','小3〜小6','#12b5a6','#0c8f83','こん虫・電気・天気・星・人の体・水よう液。']],
+ chu:[
+  ['math','数','数学','中1〜中3・44単元','#ff8a00','#d97000','正負の数から三平方の定理まで。図と例題つきで、解き方がわかる。','math'],
+  ['english','英','英語','中1〜中3・36単元','#ce82ff','#a568cc','文法の要点とネイティブ音声の例文。聞き取り問題つき。','english'],
+  ['science','理','理科','中1〜中3・44単元','#12b5a6','#0c8f83','物理・化学・生物・地学。計算問題も手順つきで解説。','science'],
+  ['Kokugo','国','国語','中1〜中3・37単元','#e8508a','#c23a6f','文法・敬語・古典・漢文・語彙。テストに出るところを中心に。','kokugo'],
+  ['shakai','社','社会','地理・公民・39単元','#2b8be6','#1f6fbd','世界地理・日本地理・公民。選挙や経済のしくみもわかる。','shakai'],
+  ['rekishi','歴','歴史','縄文〜現代・34単元','#a8650a','#7d4a05','時代ごとの流れと人物・できごとを、要点と問題でおさえる。','history']],
+ you:[
+  ['kids','キ','学びのミカタ キッズ','3〜6さい・32ステージ','#58cc02','#58a700','いろ・かたち・かず・ひらがな・カタカナ・ABC・とけい。親子でいっしょに遊べる知育ゲームつき。']]
+};
+function lvOf(id){try{let x=parseInt(localStorage.getItem(id+'_xp_v2')||'0',10);if(!x)return 0;let l=1,n=100;while(x>=n){x-=n;l++;n=100+(l-1)*50}return l}catch(e){return 0}}
+for(const k in APPS){document.getElementById('g-'+k).innerHTML=APPS[k].map(([r,lg,n,sub,c,cd,d,aid])=>{const lv=aid?lvOf(aid):0;
+ return `<a class="card" href="${B}${r}/">${lv?`<span class="lvb" style="background:${c}">Lv.${lv}</span>`:''}
+  <div class="ch"><div class="logo" style="background:${c};box-shadow:0 3px 0 ${cd}">${lg}</div><div><h3>${n}</h3><small>${sub}</small></div></div>
+  <p>${d}</p><div class="cf"><span class="free">7日間無料</span><span class="price">その後 ¥980</span><span class="go">${lv?'つづける':'はじめる'}${I.arrow}</span></div></a>`}).join('')
+}
+// 決済リンクが未設定なら「準備中」
+document.querySelectorAll('[data-buy]').forEach(a=>{if(a.href.includes('TODO')){a.classList.add('dis');a.textContent='準備中';a.removeAttribute('href')}});
+// 対象タブ
+function setAud(a){document.querySelectorAll('.aud button').forEach(b=>b.classList.toggle('on',b.dataset.a===a));
+ ['you','sho','chu'].forEach(x=>{document.getElementById('p-'+x).classList.toggle('on',x===a);document.getElementById('pr-'+x).classList.toggle('on',x===a)});
+ try{localStorage.setItem('portal_aud',a)}catch(e){}}
+document.querySelectorAll('.aud button').forEach(b=>b.onclick=()=>setAud(b.dataset.a));
+let a0='chu';try{a0=new URLSearchParams(location.search).get('for')||localStorage.getItem('portal_aud')||'chu'}catch(e){}
+setAud(['you','sho','chu'].includes(a0)?a0:'chu');
+</script>
+</body>
+</html>
