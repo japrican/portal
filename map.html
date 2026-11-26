@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>学びの地図</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+/* VOICE: 冒険のはじまり。明るく、はげまして、次の一歩を見せる
+   IDEA: すごろくの冒険マップ。学年ごとに「ワールド」があり、単元は道の上のステージ
+   PICTURE: くねくね道とステージ、つぎはここ！の旗、ゴールのメダル。進むと道に色がつく
+   COLOUR and TYPE: 学年ごとのワールド色を1色ずつ、星は金色、白地／Zen Maru Gothic
+   LAYOUT: 上にワールド色の帯（つぎのめあて）、ワールド切替、道のマップ、下に地図／足あと */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0f1720);--ink:light-dark(#1b2430,#eef2f7);--sub:light-dark(#5b6675,#a3afbd);
+--line:light-dark(#e3e8ef,#2a3646);--card:light-dark(#ffffff,#17212d);--soft:light-dark(#f2f5f9,#1c2734);
+--gold:#ffbf1f;--w:#f08a24}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;overflow-x:clip;padding-bottom:90px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.hero{background:var(--w);color:#fff;position:relative;overflow:hidden;transition:background .4s}
+.hills{position:absolute;inset:auto 0 0 0;width:100%;height:70px;display:block}
+.hin{position:relative;max-width:900px;margin:0 auto;padding:18px max(5vw,16px) 56px;display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:12px;align-items:center}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:700;font-size:15px;grid-column:1/-1}
+.stars{background:rgba(0,0,0,.18);border-radius:999px;padding:4px 12px 4px 8px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.stars svg{width:20px;height:20px}
+.eyebrow{font-size:15px;opacity:.95;margin:0}
+.goal{font-size:clamp(28px,6.5vw,44px);line-height:1.1;font-weight:900;margin:4px 0 8px;text-wrap:balance}
+.left{font-size:17px;font-weight:700;margin:0 0 10px}
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.dots i{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.3)}
+.dots i.h{background:#fff8d6}.dots i.d{background:var(--gold);box-shadow:0 0 0 2px #fff}
+.go{border:0;background:#fff;color:var(--w);border-radius:999px;padding:12px 22px;min-height:48px;font-weight:900;font-size:17px;box-shadow:0 4px 0 rgba(0,0,0,.15)}
+.mas{align-self:end;text-align:center}
+.mas svg{width:110px;height:auto;display:block;margin:0 auto}
+.bub{background:#fff;color:#1b2430;border-radius:14px;padding:8px 10px;font-size:13px;font-weight:700;line-height:1.4;margin-bottom:6px;position:relative}
+.bub:after{content:"";position:absolute;left:50%;bottom:-7px;margin-left:-7px;border:7px solid transparent;border-bottom:0;border-top-color:#fff}
+.subs{display:flex;gap:8px;overflow-x:auto;padding:14px max(5vw,16px) 0;max-width:900px;margin:0 auto}
+.sb{flex:none;display:flex;align-items:baseline;gap:6px;border:2px solid var(--line);background:var(--card);border-radius:999px;padding:8px 16px;min-height:46px;font-size:16px}
+.sb small{font-size:13px;color:var(--sub)}
+.sb.on{background:var(--sc);border-color:var(--sc);color:#fff}.sb.on small{color:#fff;opacity:.9}
+.srow{display:grid;grid-template-columns:3.2em minmax(0,1fr);align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)}
+.srow b{font-weight:900}
+.mini{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+.mm{border:0;background:none;padding:2px;min-height:44px}.mm svg{width:100%;max-width:52px;height:auto;display:block;margin:0 auto}
+.ph{display:block}
+.worlds{display:flex;gap:8px;overflow-x:auto;padding:10px max(5vw,16px) 6px;max-width:900px;margin:0 auto}
+.wb{flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;border:2px solid var(--line);background:var(--card);border-radius:16px;padding:8px 10px;min-width:74px;font-weight:700;font-size:14px}
+.wb .c{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;font-size:16px}
+.wb small{font-size:13px;color:var(--sub);font-weight:500}
+.wb.on{border-color:var(--wc);box-shadow:0 0 0 2px var(--wc) inset}
+.wname{max-width:900px;margin:10px auto 0;padding:0 max(5vw,16px);font-size:24px;font-weight:900}
+.wname span{display:block;font-size:14px;color:var(--sub);font-weight:500}
+.road{position:relative;max-width:560px;margin:8px auto 0}
+.road>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.st{position:absolute;transform:translate(-50%,-38px);display:flex;flex-direction:column;align-items:center;width:140px;border:0;background:none;padding:0}
+.st .o{width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--card);border:4px dashed var(--line);font-size:26px;font-weight:900;color:var(--sub);position:relative;box-shadow:0 5px 0 var(--line);transition:transform .2s}
+.st:active .o{transform:translateY(3px)}
+.st .o>svg{width:42px;height:42px;flex:none}
+.st.s1 .o{border:4px solid var(--gold);background:light-dark(#fff7d9,#2c2614);color:#b07d00}
+.st.s2 .o{border:4px solid var(--gold);background:var(--gold);box-shadow:0 5px 0 #d99a00}
+.st .t{margin-top:8px;font-weight:700;font-size:14px;line-height:1.3;text-align:center;background:var(--bg);border-radius:8px;padding:2px 6px}
+.st.nx .o{border:4px solid var(--w);color:var(--w);animation:pulse 1.6s ease-in-out infinite}
+.flag{position:absolute;top:24px;left:86px;background:var(--w);color:#fff;font-size:13px;font-weight:900;border-radius:8px;padding:3px 8px;white-space:nowrap}
+.flag:after{content:"";position:absolute;left:-6px;top:50%;margin-top:-6px;border:6px solid transparent;border-left:0;border-right-color:var(--w)}
+.flag.l{left:auto;right:86px}.flag.l:after{left:auto;right:-6px;border:6px solid transparent;border-right:0;border-left-color:var(--w)}
+@keyframes pulse{0%,100%{box-shadow:0 5px 0 var(--line),0 0 0 0 color-mix(in srgb,var(--w) 45%,transparent)}50%{box-shadow:0 5px 0 var(--line),0 0 0 14px transparent}}
+.start{position:absolute;left:50%;top:6px;transform:translateX(-50%);font-weight:900;color:var(--sub);font-size:14px}
+.gl .o{width:96px;height:96px;border:0;border-radius:50%;background:var(--soft);box-shadow:none}
+.gl.ok .o{background:var(--w)}
+.gl .o>svg{width:64px;height:64px}
+.note{max-width:900px;margin:30px auto 0;padding:0 max(5vw,16px);font-size:13px;color:var(--sub)}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:9;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+.nav button{flex:1;max-width:220px;border:0;border-radius:14px;min-height:50px;background:transparent;font-weight:900;color:var(--sub)}
+.nav button.on{background:var(--soft);color:var(--ink)}
+.view{display:none}.view.on{display:block}
+.sheet{position:fixed;inset:0;z-index:20;background:rgba(10,15,25,.5);display:none;align-items:flex-end;justify-content:center}
+.sheet.on{display:flex}
+.panel{background:var(--card);width:100%;max-width:560px;border-radius:24px 24px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto}
+.close{float:right;border:0;background:var(--soft);border-radius:999px;width:44px;height:44px;font-size:22px}
+.tag{font-size:14px;color:var(--sub);font-weight:700}
+.panel h3{font-size:28px;line-height:1.2;margin:4px 0 6px;font-weight:900}
+.desc{margin:0 0 16px;font-size:17px}
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:18px}
+.seg button{border:2px solid var(--line);background:var(--bg);border-radius:16px;min-height:76px;font-weight:900;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:15px}
+.seg button svg{width:30px;height:30px}
+.seg button.on{border-color:var(--gold);background:light-dark(#fff3c4,#33290f)}
+.seg button.on[data-v="0"]{border-color:var(--sub);background:var(--soft)}
+.panel h4{margin:16px 0 8px;font-size:15px;color:var(--sub)}
+.links{display:flex;flex-direction:column;gap:6px}
+.lk{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:8px 12px;min-height:48px}
+.lk svg{width:24px;height:24px;flex:none}
+.lk span{flex:1}.lk small{color:var(--sub);white-space:nowrap}
+.none{color:var(--sub);font-size:14px;margin:0}
+.play{display:flex;align-items:center;justify-content:center;width:100%;margin-bottom:10px;border-radius:14px;background:var(--gold);color:#3a2a00;min-height:52px;font-weight:900;text-decoration:none}
+.trace{width:100%;margin-top:16px;border:0;border-radius:14px;background:var(--w);color:#fff;min-height:52px;font-weight:900}
+.chain{margin-top:10px}
+.foot{max-width:900px;margin:0 auto;padding:18px max(5vw,16px)}
+.foot h2{font-size:24px;margin:8px 0 12px;font-weight:900}
+.medals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.md{background:var(--soft);border-radius:18px;padding:12px 6px;text-align:center;font-weight:700;font-size:14px}
+.md svg{width:72px;height:72px;display:block;margin:0 auto 4px}
+.md small{display:block;color:var(--sub);font-weight:500}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:24px;align-items:start}
+.tree{background:light-dark(#eaf4ff,#132235);border-radius:20px;padding:10px}
+.tree svg{display:block;width:100%;height:auto}
+.treecap{text-align:center;margin:4px 0 8px;font-weight:700}
+.log{list-style:none;margin:0;padding:0}
+.log li{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px;align-items:center}
+.log li svg{width:22px;height:22px;flex:none}
+.log time{color:var(--sub);flex:none;width:3.2em}
+.reset{margin-top:20px;border:1px solid var(--line);background:transparent;border-radius:10px;padding:8px 14px;min-height:44px;color:var(--sub);font-size:14px}
+.toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,30px);opacity:0;z-index:30;background:#1b2430;color:#fff;border-radius:16px;padding:12px 18px;font-weight:700;text-align:center;width:max-content;max-width:calc(100vw - 32px);transition:.3s;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.cf{position:fixed;z-index:31;width:10px;height:14px;border-radius:3px;pointer-events:none;animation:fall 1.3s ease-out forwards}
+@keyframes fall{to{transform:translate(var(--dx),var(--dy)) rotate(540deg);opacity:0}}
+@media(max-width:600px){.hin{grid-template-columns:minmax(0,1fr) 96px}.mas svg{width:86px}.two{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="hero" id="hero">
+  <div class="hin">
+    <div class="top"><span>学びのミカタ 学びの地図</span><span class="stars" id="stars"></span></div>
+    <div id="next"></div>
+    <div class="mas"><div class="bub" id="bub"></div>
+      <svg viewBox="0 0 100 112" aria-hidden="true">
+        <path d="M50 30 C50 22 50 18 50 12" stroke="#2f9e5b" stroke-width="4" stroke-linecap="round"/>
+        <ellipse cx="38" cy="12" rx="13" ry="7" fill="#46c07a" transform="rotate(-25 38 12)"/>
+        <ellipse cx="62" cy="10" rx="13" ry="7" fill="#2f9e5b" transform="rotate(25 62 10)"/>
+        <circle cx="50" cy="52" r="25" fill="#fff"/><circle cx="50" cy="52" r="25" fill="none" stroke="rgba(0,0,0,.08)" stroke-width="2"/>
+        <circle cx="41" cy="50" r="3.6" fill="#1b2430"/><circle cx="59" cy="50" r="3.6" fill="#1b2430"/>
+        <circle cx="35" cy="58" r="4" fill="#ffb3c1"/><circle cx="65" cy="58" r="4" fill="#ffb3c1"/>
+        <path d="M43 59 Q50 66 57 59" fill="none" stroke="#1b2430" stroke-width="2.6" stroke-linecap="round"/>
+        <rect x="22" y="76" width="56" height="10" rx="4" fill="#e07c45"/>
+        <path d="M26 86h48l-6 24H32z" fill="#c8693a"/>
+      </svg>
+    </div>
+  </div>
+  <svg class="hills" viewBox="0 0 400 70" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 40 Q60 10 130 34 T260 30 T400 28 V70 H0Z" fill="rgba(255,255,255,.18)"/>
+    <path d="M0 56 Q90 30 200 52 T400 46 V70 H0Z" fill="var(--bg)"/>
+  </svg>
+</header>
+
+<section class="view on" id="v-map">
+  <nav class="subs" id="subs" aria-label="教科"></nav>
+  <nav class="worlds" id="worlds" aria-label="学年"></nav>
+  <div class="wname" id="wname"></div>
+  <div class="road" id="road"></div>
+  <p class="note">ステージは学習指導要領の内容をもとに分けています。学校で習う順番は教科書によってちがいます。</p>
+</section>
+
+<section class="view" id="v-foot">
+  <div class="foot">
+    <h2>学年まるごとメダル</h2>
+    <div class="medals" id="medals"></div>
+    <h2 style="margin-top:26px">教科のメダル</h2>
+    <div id="smedals"></div>
+    <div class="two">
+      <div class="tree"><svg id="tree" viewBox="0 0 300 270" role="img" aria-label="学びの木"></svg><p class="treecap" id="treecap"></p></div>
+      <div><h2 style="font-size:20px;margin-top:0">さいきんの足あと</h2><ul class="log" id="log"></ul>
+      <button class="reset" id="reset">記録をリセット</button></div>
+    </div>
+  </div>
+</section>
+
+<nav class="nav"><button class="on" data-view="map">冒険マップ</button><button data-view="foot">メダルと足あと</button></nav>
+<div class="sheet" id="sheet"><div class="panel" id="panel" role="dialog" aria-modal="true"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+{
+const W=[['はじまりの丘','#f08a24'],['ひろがる海','#2f86e0'],['ふしぎの森','#23a160'],['ちょうせんの山','#8a5cd8'],['はばたく空','#e0517a'],['かがやく星空','#3a52b8']];
+const SUBJ=[
+{k:'sansu',nm:'算数',app:'sansu',c:'#2f86e0',from:1,
+U:[
+['1a',1,'10までのかず','ものの数をかぞえ、数字で書いたり大小をくらべたりする',[]],
+['1b',1,'たし算・ひき算','あわせる・ふえる、のこり・ちがいを式に表す',['1a']],
+['1c',1,'くり上がり・くり下がり','10をつくる考え方で、9+4や13−8を計算する',['1b']],
+['1d',1,'100までのかず','十のまとまりで大きな数を数え、表す',['1a']],
+['1e',1,'かたちあそび','箱・つつ・ボールなどの形の特ちょうを見つける',[]],
+['1f',1,'ながさ・かさくらべ','じかにくらべたり、何こ分かで量をくらべたりする',[]],
+['1g',1,'とけい','何時、何時半、何時何分を読む',[]],
+['1h',1,'かずをせいりする','絵や図にならべて、数のちがいを見やすくする',[]],
+['2a',2,'1000までのかず','百のまとまりで数を表し、数の線で大きさをとらえる',['1d']],
+['2b',2,'たし算・ひき算のひっ算','2けた・3けたの計算を、位をそろえて筆算でする',['1c','1d']],
+['2c',2,'かけ算九九','同じ数のいくつ分をかけ算で表し、九九をおぼえる',['1b']],
+['2d',2,'分数のはじまり','もとの大きさの1/2や1/4を知る',[]],
+['2e',2,'三角形と四角形','辺・頂点や直角に注目し、長方形・正方形・直角三角形を知る',['1e']],
+['2f',2,'はこの形','箱の面・辺・頂点の数や形を調べる',['1e']],
+['2g',2,'長さ（cm・mm・m）','ものさしで長さをはかり、単位を使って表す',['1f']],
+['2h',2,'かさ（L・dL・mL）','水のかさを単位を使ってはかる',['1f']],
+['2i',2,'時こくと時間','時こくと時間のちがい、1日＝24時間',['1g']],
+['2j',2,'表とグラフ','かんたんな表や○のグラフにまとめて読みとる',['1h']],
+['3a',3,'わり算','同じ数ずつ分ける・いくつ分を考え、九九で答えを出す',['2c']],
+['3b',3,'3・4けたのひっ算','けたがふえても位をそろえて、たし算・ひき算をする',['2b']],
+['3c',3,'かけ算のひっ算','2・3けた×1けた、2けた×2けたを筆算でする',['2b','2c']],
+['3d',3,'大きな数（万）','一万をこえる数のしくみと、10倍・1/10の大きさ',['2a']],
+['3e',3,'小数','0.1の位までの小数を知り、たし算・ひき算をする',['2h']],
+['3f',3,'分数','2/5など分数の表し方と、かんたんなたし算・ひき算',['2d']],
+['3g',3,'□を使った式','わからない数を□にして式に表す',['2b']],
+['3h',3,'円と球','中心・半径・直径を知り、コンパスで円をかく',['2e']],
+['3i',3,'二等辺三角形・正三角形','辺の長さに注目して三角形をなかま分けする',['2e']],
+['3j',3,'長さ（km）と重さ','長い道のりと、g・kgでの重さのはかり方',['2g']],
+['3k',3,'時こくと時間（秒）','秒を知り、時間の計算をする',['2i']],
+['3l',3,'ぼうグラフ','表を整理してぼうグラフにかき、読みとる',['2j']],
+['4a',4,'大きな数（億・兆）','億や兆までの数のしくみ',['3d']],
+['4b',4,'わり算のひっ算','÷1けた・÷2けたの計算を筆算でする',['3a','3c']],
+['4c',4,'がい数','四捨五入でおよその数にして見積もる',['4a']],
+['4d',4,'小数のたし算・ひき算','0.01の位までの小数のしくみと計算',['3e']],
+['4e',4,'小数×整数・小数÷整数','小数に整数をかけたり、整数でわったりする',['4d','4b']],
+['4f',4,'分数（仮分数・帯分数）','1より大きい分数と、分母が同じ分数の計算',['3f']],
+['4g',4,'計算のきまり','（ ）や×÷を先にする順番、計算のくふう',['3g']],
+['4h',4,'角の大きさ','分度器で角度をはかり、かく',['3i']],
+['4i',4,'垂直・平行と四角形','台形・平行四辺形・ひし形の特ちょう',['2e']],
+['4j',4,'面積','cm²・m²を知り、長方形・正方形の面積を求める',['4i']],
+['4k',4,'直方体と立方体','面や辺の垂直・平行、展開図と見取図',['2f']],
+['4l',4,'変わり方','いっしょに変わる2つの量を表や式で調べる',['3g']],
+['4m',4,'折れ線グラフ','変わっていく様子を折れ線グラフで表す',['3l']],
+['5a',5,'倍数と約数','偶数・奇数、公倍数・公約数を見つける',['3a']],
+['5b',5,'小数のかけ算・わり算','小数×小数、小数÷小数の計算',['4e']],
+['5c',5,'分数のたし算・ひき算','通分・約分をして、分母のちがう分数を計算する',['4f','5a']],
+['5d',5,'分数と小数・整数','わり算の答えを分数で表し、小数と分数を行き来する',['4f','4d']],
+['5e',5,'合同な図形','ぴったり重なる図形の性質とかき方',['4i']],
+['5f',5,'図形の角','三角形の角の和は180°、四角形は360°',['4h']],
+['5g',5,'三角形・四角形の面積','平行四辺形・三角形・台形・ひし形の面積',['4j']],
+['5h',5,'体積','cm³・m³を知り、直方体・立方体の体積を求める',['4k','4j']],
+['5i',5,'正多角形と円周','正多角形のかき方と、円周＝直径×3.14',['3h']],
+['5j',5,'平均','いくつかの数をならした大きさを求める',['4b']],
+['5k',5,'単位量あたり・速さ','こみぐあいや速さを「1あたり」でくらべる',['5b']],
+['5l',5,'割合・百分率','もとにする量とくらべる量、％や歩合で表す',['5b']],
+['5m',5,'比例','一方が2倍、3倍…になると、もう一方も2倍、3倍…になる関係',['4l']],
+['5n',5,'帯グラフ・円グラフ','割合を帯グラフや円グラフで表す',['5l','4m']],
+['6a',6,'文字を使った式','xやaを使って数量の関係を式に表す',['4g']],
+['6b',6,'分数のかけ算・わり算','分数×分数、分数÷分数の計算',['5c','5b']],
+['6c',6,'対称な図形','線対称・点対称な図形の性質',['5e']],
+['6d',6,'拡大図と縮図','形を変えずに大きく・小さくした図',['5e']],
+['6e',6,'円の面積','円の面積＝半径×半径×3.14',['5g','5i']],
+['6f',6,'角柱・円柱の体積','底面積×高さで体積を求める',['5h','6e']],
+['6g',6,'比','a:bで2つの量の割合を表し、等しい比をつくる',['5l']],
+['6h',6,'比例と反比例','比例・反比例の式とグラフ',['5m']],
+['6i',6,'データの調べ方','平均値・中央値・最頻値、ドットプロット、度数分布表',['5j','5n']],
+['6j',6,'場合の数','並べ方・組み合わせを落ちなく調べる',[]]
+],
+map:{'1b':[0,1],'1c':[2,3],'2b':[4,5],'2c':[6,7],'3a':[8,9],'3c':[10],'3b':[11],'4b':[12],'4d':[13],'4g':[14],'4c':[15],'5b':[16],'5c':[17],'5j':[18],'5a':[19],'6b':[20,21],'6g':[22],'5k':[23]}},
+
+{k:'kokugo',nm:'国語',app:'kokugo-sho',c:'#e04848',from:1,
+U:[
+['k1a',1,'ひらがな','ひらがなを正しく読み、ていねいに書く',[]],
+['k1b',1,'「は・を・へ」','「わ・お・え」と読む「は・を・へ」を正しく使う',['k1a']],
+['k1c',1,'カタカナ','カタカナを読み書きし、カタカナで書くことばを知る',['k1a']],
+['k1d',1,'はんたいのことば','「大きい⇔小さい」のように反対の意味のことば',[]],
+['k1e',1,'。、「」のつかい方','句点・読点・かぎを使って文を書く',['k1b']],
+['k1f',1,'おはなしを読む','だれが・何をしたかを考えながら読む',['k1a']],
+['k1g',1,'したことを書く','したことや見たことを、順番に文に書く',['k1e']],
+['k2a',2,'主語と述語','「だれが（何が）」「どうする」をつかむ',['k1e']],
+['k2b',2,'なかまのことば','「くだもの」「りんご」のような、ことばのなかま',['k1d']],
+['k2c',2,'ようすや音のことば','「きらきら」「ざあざあ」など、ようすや音を表すことば',['k1d']],
+['k2d',2,'カタカナで書くことば','外国から来たことば・鳴き声・物の音をカタカナで書く',['k1c']],
+['k2e',2,'説明文の順序','「はじめに」「つぎに」など、順序に気をつけて読む',['k1f']],
+['k2f',2,'手紙を書く','相手に伝わるように、気持ちや用事を書く',['k1g']],
+['k3a',3,'こそあど言葉','「これ・それ・あれ・どれ」が指すものを考える',['k2a']],
+['k3b',3,'国語辞典の引き方','五十音順に並ぶ辞典で、ことばの意味を調べる',['k1a']],
+['k3c',3,'ローマ字','ローマ字の読み書き',['k2d']],
+['k3d',3,'つなぎ言葉','「だから」「しかし」など、文と文をつなぐことば',['k2a']],
+['k3e',3,'段落と中心','段落ごとに、中心になる文を見つける',['k2e']],
+['k3f',3,'気持ちの変化を読む','登場人物の気持ちがどう変わったかを読む',['k1f']],
+['k3g',3,'報告する文を書く','調べたことを、組み立てを考えて書く',['k2f']],
+['k4a',4,'ことわざ','「急がば回れ」など、昔から伝わる教えのことば',[]],
+['k4b',4,'慣用句','「足が棒になる」など、決まった意味を持つ言い回し',['k2c']],
+['k4c',4,'漢字辞典と画数','部首・音訓・総画数で漢字を調べる',['k3b']],
+['k4d',4,'修飾語','「どんな」「どのように」をくわしくすることば',['k2a']],
+['k4e',4,'要約する','大事なことばや文を見つけて短くまとめる',['k3e']],
+['k4f',4,'意見文を書く','考えと理由を分けて書く',['k3g']],
+['k5a',5,'敬語の種類','尊敬語・けんじょう語・ていねい語',[]],
+['k5b',5,'和語・漢語・外来語','ことばの由来によるちがい',['k2d']],
+['k5c',5,'類義語・対義語','意味が似ていることば・反対のことば',['k2b']],
+['k5d',5,'故事成語','「矛盾」など、中国の昔の話から生まれたことば',['k4a']],
+['k5e',5,'文章の構成と要旨','序論・本論・結論から、筆者がいちばん言いたいことをつかむ',['k4e']],
+['k5f',5,'資料を使って書く','グラフや表を引用して、考えを伝える',['k4f']],
+['k6a',6,'敬語の使い方','場面や相手に合わせて敬語を使い分ける',['k5a']],
+['k6b',6,'熟語の組み立て','「似た意味」「反対の意味」など、二字熟語のしくみ',['k5b']],
+['k6c',6,'古典と俳句','昔の文章や俳句のリズムを味わう',['k5d']],
+['k6d',6,'同じ訓の漢字','「熱い・暑い・厚い」など、使い分け',['k5c']],
+['k6e',6,'筆者の考えを読む','事実と意見を区別し、自分の考えと比べる',['k5e']],
+['k6f',6,'提案する文章を書く','目的に合わせて構成を考え、説得力のある文章を書く',['k5f']]
+],
+map:{'k1a':[0],'k1b':[1],'k1c':[2],'k1d':[3],'k2a':[4],'k2b':[5],'k2c':[6],'k2d':[7],'k3a':[8],'k3b':[9],'k3c':[10],'k3d':[11],'k4a':[12],'k4b':[13],'k4c':[14],'k4d':[15],'k5a':[16],'k5b':[17],'k5c':[18],'k5d':[19],'k6a':[20],'k6b':[21],'k6c':[22],'k6d':[23]}},
+
+{k:'kanji',nm:'漢字',app:'kanji',c:'#f08a24',from:1,
+U:[
+['j1a',1,'かずのかんじ','一〜十、百、千など、かずを表すかんじ（1年は80字）',[]],
+['j1b',1,'しぜんのかんじ','山・川・木・火・水など、しぜんのかんじをよむ',[]],
+['j1c',1,'からだ・ひとのかんじ','目・口・手・足・人などをよむ',[]],
+['j1d',1,'かんじをかく','1年のかんじを、かき順に気をつけてかく',['j1b','j1c']],
+['j2a',2,'きせつ・てんきの漢字','春・夏・秋・冬・雪などを読む（2年は160字）',['j1b']],
+['j2b',2,'いえ・まちの漢字','家・店・道・寺などを読む',['j1c']],
+['j2c',2,'生きもの・体の漢字を書く','2年の漢字を正しく書く',['j1d']],
+['j2d',2,'部首のはじまり','同じ部分をもつ漢字のなかま',['j1d']],
+['j3a',3,'くらしの漢字','3年の漢字を読む（3年は200字）',['j2b']],
+['j3b',3,'熟語の読み','漢字を2つ組み合わせたことばを読む',['j2a']],
+['j3c',3,'熟語を書く','3年の漢字で熟語を書く',['j2c']],
+['j3d',3,'部首となかまの漢字','「さんずい」「きへん」など、部首の意味',['j2d']],
+['j4a',4,'熟語の読み','4年の漢字の熟語を読む（4年は202字）',['j3b']],
+['j4b',4,'都道府県の漢字','岐阜・滋賀・茨城など、都道府県名の漢字',['j3a']],
+['j4c',4,'熟語を書く','4年の漢字で熟語を書く',['j3c']],
+['j4d',4,'送りがな','漢字のあとにつくひらがなの正しい書き方',['j3a']],
+['j5a',5,'熟語の読み','5年の漢字の熟語を読む（5年は193字）',['j4a']],
+['j5b',5,'訓読み','漢字の訓読みを正しく読む',['j4d']],
+['j5c',5,'熟語を書く','5年の漢字で熟語を書く',['j4c']],
+['j5d',5,'同じ読みの漢字','「計る・測る・量る」など、同じ読みの使い分け',['j3d']],
+['j6a',6,'熟語の読み','6年の漢字の熟語を読む（6年は191字）',['j5a']],
+['j6b',6,'訓読み','6年の漢字の訓読み',['j5b']],
+['j6c',6,'熟語を書く','6年の漢字で熟語を書く',['j5c']],
+['j6d',6,'四字熟語','「一石二鳥」など、4つの漢字でできたことば',['j5c']]
+],
+map:{'j1b':[0],'j1c':[1],'j1d':[2],'j1a':[3],'j2a':[4],'j2b':[5],'j2c':[6],'j2d':[7],'j3a':[8],'j3b':[9],'j3c':[10],'j3d':[11],'j4a':[12],'j4b':[13],'j4c':[14],'j4d':[15],'j5a':[16],'j5b':[17],'j5c':[18],'j5d':[19],'j6a':[20],'j6b':[21],'j6c':[22],'j6d':[23]}},
+
+{k:'rika',nm:'理科',app:'rika-sho',c:'#23a160',from:3,
+U:[
+['r3a',3,'こん虫の体と育ち','頭・むね・はらの3つの部分と、たまご→よう虫→成虫',[]],
+['r3b',3,'植物の育ち','たね→芽→花→実と、根・くき・葉のつくり',[]],
+['r3c',3,'かげと太陽','かげの向きと太陽の動き、日なたと日かげ',[]],
+['r3d',3,'光と音','光をはね返す・集める、音とふるえ',[]],
+['r3e',3,'風とゴムのはたらき','風やゴムの力でものを動かす',[]],
+['r3f',3,'じしゃくと電気の通り道','じしゃくにつくもの、電気を通すもの',[]],
+['r3g',3,'ものと重さ','形を変えても重さは変わらない',[]],
+['r4a',4,'天気と気温','晴れの日とくもりの日の気温の変わり方',['r3c']],
+['r4b',4,'月と星','月の動き、星の明るさや色、星座',['r3c']],
+['r4c',4,'電気のはたらき','かん電池の直列つなぎ・へい列つなぎ',['r3f']],
+['r4d',4,'水のすがた','水・氷・水じょう気、温度と体積',[]],
+['r4e',4,'もののあたたまり方','金ぞく・水・空気のあたたまり方',['r4d']],
+['r4f',4,'体のつくりと運動','ほねときん肉、関節',[]],
+['r4g',4,'季節と生き物','季節ごとの動物の活動や植物の成長',['r3a','r3b']],
+['r5a',5,'天気の変化','雲の動きと天気、台風',['r4a']],
+['r5b',5,'発芽と成長','発芽の条件（水・空気・温度）と成長の条件',['r3b']],
+['r5c',5,'花から実へ','おしべ・めしべ、受粉',['r5b']],
+['r5d',5,'動物のたん生','メダカのたん生、人のたん生',['r3a']],
+['r5e',5,'ふりこ','ふりこが1往復する時間を決めるもの',[]],
+['r5f',5,'電磁石','電流を流すと磁石になる、強くする方法',['r4c']],
+['r5g',5,'もののとけ方','とける量と水の量・温度',['r4d']],
+['r5h',5,'流れる水のはたらき','しん食・運ぱん・たい積',[]],
+['r6a',6,'ものの燃え方','燃えるには酸素が必要、燃えたあとの空気',[]],
+['r6b',6,'人の体のつくりとはたらき','呼吸・消化・血液のじゅんかん',['r4f']],
+['r6c',6,'植物の養分と水','日光とでんぷん、蒸散',['r5c']],
+['r6d',6,'水よう液の性質','酸性・中性・アルカリ性、金属をとかす',['r5g']],
+['r6e',6,'てこのはたらき','支点・力点・作用点、てこのつり合い',['r5e']],
+['r6f',6,'月の形と太陽','月の形が変わって見える理由',['r4b']],
+['r6g',6,'大地のつくり','地層のでき方、火山と地しん',['r5h']],
+['r6h',6,'電気の利用','発電・ちく電、電気を光や熱に変える',['r5f']],
+['r6i',6,'生物と環境','食べ物によるつながり、水や空気とのかかわり',['r6c']]
+],
+map:{'r3a':[0],'r3b':[1],'r3d':[2],'r3f':[3],'r4a':[4],'r4b':[5],'r4c':[6],'r4d':[7],'r4f':[7],'r5a':[8],'r5b':[9],'r5c':[10],'r5d':[10],'r5e':[11],'r5f':[11],'r5g':[11],'r6a':[12],'r6b':[13],'r6d':[14],'r6e':[15],'r6f':[15],'r6g':[15]}},
+
+{k:'shakai',nm:'社会',app:'shakai-sho',c:'#b0701e',from:3,
+U:[
+['s3a',3,'地図記号','学校・神社・田・畑などの地図記号',[]],
+['s3b',3,'方位と地図','東西南北・八方位、地図の見方',[]],
+['s3c',3,'わたしたちの市','市の地形や土地の使われ方',['s3a','s3b']],
+['s3d',3,'店ではたらく人','スーパーマーケットのくふう、買い物調べ',[]],
+['s3e',3,'農家・工場の仕事','市でつくられているものと、つくる人のくふう',['s3c']],
+['s3f',3,'くらしを守る','消防・警察のしくみと、地いきの協力',[]],
+['s3g',3,'市のうつりかわり','交通・土地の使われ方・道具の変化',['s3c']],
+['s4a',4,'47都道府県','都道府県の名前と位置、それぞれのとくちょう',['s3c']],
+['s4b',4,'県庁所在地','都道府県庁のある都市',['s4a']],
+['s4c',4,'地方区分','北海道・東北・関東など8つの地方',['s4a']],
+['s4d',4,'水・ごみのしくみ','じょう水場・下水・ごみ処理のしくみ',['s3f']],
+['s4e',4,'自然災害から守る','地しん・水害などへのそなえ',['s3f']],
+['s4f',4,'県の伝統と文化','受けつがれてきた祭りや伝統工芸',['s4a']],
+['s5a',5,'日本の国土','日本の位置・領土・地形',['s4c']],
+['s5b',5,'日本の気候','季節風と地いきごとの気候',['s5a']],
+['s5c',5,'農業','米づくり・野菜・果物の産地とくふう',['s3e']],
+['s5d',5,'水産業','とる漁業・育てる漁業',['s5a']],
+['s5e',5,'工業','工業地帯・自動車づくり・貿易',['s3e']],
+['s5f',5,'情報と産業','放送・新聞、情報を活かす産業',[]],
+['s5g',5,'国土の環境','森林・公害・自然災害と国土',['s5b']],
+['s6a',6,'政治と憲法','日本国憲法の3つの原則、国会・内閣・裁判所',[]],
+['s6b',6,'歴史（縄文〜平安）','むらからくにへ、大和朝廷、貴族のくらし',[]],
+['s6c',6,'歴史（鎌倉〜江戸）','武士の世の中、戦国時代、江戸のくらし',['s6b']],
+['s6d',6,'歴史（明治〜現代）','開国・近代化、戦争と平和、今の日本',['s6c']],
+['s6e',6,'世界の中の日本','つながりの深い国々、国際協力',['s5a']]
+],
+map:{'s3a':[0],'s3b':[1],'s3f':[2],'s3d':[3],'s4b':[4],'s4c':[5],'s4d':[6],'s4a':[7],'s5a':[8],'s5b':[9],'s5c':[10],'s5d':[10],'s5e':[11],'s6b':[12],'s6c':[13],'s6d':[14],'s6a':[15]}},
+
+{k:'eigo',nm:'英語',app:'eigo',c:'#8a5cd8',from:3,
+U:[
+['e3a',3,'あいさつ・自己しょうかい','Hello. / I\'m 〜. で自分のことを伝える',[]],
+['e3b',3,'数','1〜20の数を言う・聞く',[]],
+['e3c',3,'色','好きな色を伝える',[]],
+['e3d',3,'動物・好きなもの','I like 〜. / Do you like 〜?',['e3a']],
+['e3e',3,'アルファベット（大文字）','大文字を見て読む',[]],
+['e4a',4,'曜日・時こく','What day is it? / What time is it?',['e3b']],
+['e4b',4,'天気と気もち','How are you? / It\'s sunny.',['e3a']],
+['e4c',4,'文ぼう具・持ち物','Do you have 〜?',['e3d']],
+['e4d',4,'食べ物・ほしいもの','What do you want?',['e3d']],
+['e4e',4,'アルファベット（小文字）','小文字を見て読む',['e3e']],
+['e5a',5,'月・たん生日','When is your birthday?',['e4a']],
+['e5b',5,'教科・時間わり','What do you study on 〜?',['e4a']],
+['e5c',5,'しょく業','あこがれの人やしょく業を伝える',['e3a']],
+['e5d',5,'できること','I can 〜. / Can you 〜?',['e3d']],
+['e5e',5,'道あんない','Go straight. / Turn right.',[]],
+['e5f',5,'文字と音・書き写し','アルファベットの音と、単語を書き写す',['e4e']],
+['e6a',6,'国・行きたい国','Where do you want to go?',[]],
+['e6b',6,'したこと（過去）','I went to 〜. / I enjoyed 〜.',['e5d']],
+['e6c',6,'学校行事・思い出','My best memory is 〜.',['e6b']],
+['e6d',6,'しょう来・中学校','I want to be 〜. / I want to join 〜.',['e5c']],
+['e6e',6,'自分のことを書く','例を参考に、自分のことを英語で書く',['e5f']]
+],
+map:{'e3a':[0],'e3b':[1],'e3c':[2],'e3d':[3],'e4a':[4],'e4b':[5],'e4c':[6],'e4d':[7],'e5a':[8],'e5b':[9],'e5c':[10],'e5d':[11],'e5e':[11],'e6a':[12],'e6b':[13],'e6c':[14],'e6d':[15]}}
+];
+
+const U=[],byId={},next={};
+SUBJ.forEach(S=>{S.U=S.U.map(a=>{const u={id:a[0],g:a[1],nm:a[2],ds:a[3],pre:a[4],sk:S.k};U.push(u);byId[u.id]=u;return u})});
+U.forEach(u=>u.pre.forEach(p=>(next[p]=next[p]||[]).push(u.id)));
+const SB=Object.fromEntries(SUBJ.map(S=>[S.k,S]));
+const KEY='mikata_map_v1',OLD='mikata_map_sansu_v1';
+let st={s:{},log:[],g:1,sub:'sansu',a:{}};
+try{const j=JSON.parse(localStorage.getItem(KEY)||localStorage.getItem(OLD));if(j&&j.s)st=Object.assign(st,j)}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+const app={};
+const readApps=()=>SUBJ.forEach(S=>{try{app[S.k]=JSON.parse(localStorage.getItem(S.app+'_progress_v1')||'{}')||{}}catch(e){app[S.k]={}}});
+const autoOf=id=>{const u=byId[id],ix=SB[u.sk].map[id];if(!ix)return 0;const p=app[u.sk]||{},n=ix.filter(i=>(p[i]||0)>0).length;return n===ix.length?2:n?1:0};
+const sv=id=>Math.max(st.s[id]||0,autoOf(id));
+function syncApp(){
+  readApps();st.a=st.a||{};const t=Date.now(),newly=[];
+  U.forEach(u=>{const a=autoOf(u.id),was=Math.max(st.a[u.id]||0,st.s[u.id]||0);if(a>(st.a[u.id]||0)){if(a>was){st.log.push({t,id:u.id,v:a,app:1});if(a===2)newly.push(u)}st.a[u.id]=a}});
+  st.log=st.log.slice(-200);save();return newly;
+}
+const $=s=>document.querySelector(s);
+const STAR=(f,s)=>`<svg viewBox="0 0 24 24"><path d="M12 2.6l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8l-5.8 3.3 1.4-6.4L2.7 9.3l6.5-.7z" fill="${f}" stroke="${s}" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
+const IC=[n=>`<span>${n}</span>`,()=>STAR('#fff3c4','#e6a800'),()=>STAR('#fff','#fff')];
+const SM=[STAR('none','#9aa6b5'),STAR('#fff3c4','#e6a800'),STAR('#ffbf1f','#e6a800')];
+const LB=['まだ','ならった','できた！'];
+const XS=[50,78,56,22,44,80,50,20];
+const H=118;
+const S=()=>SB[st.sub]||SUBJ[0];
+const ofG=(g,k)=>U.filter(u=>u.g===g&&u.sk===(k||st.sub));
+const ofGall=g=>U.filter(u=>u.g===g);
+const doneN=L=>L.filter(u=>sv(u.id)===2).length;
+function fixG(){const f=S().from;if(st.g<f)st.g=f}
+
+function medal(g,ok,frac,c,label){
+  c=c||W[g-1][1];const r=30,L=2*Math.PI*r;
+  return `<svg viewBox="0 0 72 72"><path d="M24 4 L30 26 L36 20 L42 26 L48 4" fill="${ok?c:'#c3ccd7'}" opacity=".8"/>
+  <circle cx="36" cy="42" r="${r}" fill="none" stroke="${ok?'#ffbf1f':'rgba(150,160,175,.3)'}" stroke-width="6"/>
+  ${ok?'':`<circle cx="36" cy="42" r="${r}" fill="none" stroke="${c}" stroke-width="6" stroke-dasharray="${frac*L} ${L}" transform="rotate(-90 36 42)" stroke-linecap="round"/>`}
+  <circle cx="36" cy="42" r="23" fill="${ok?'#ffbf1f':'var(--card)'}"/>
+  <text x="36" y="50" text-anchor="middle" font-size="${label?18:22}" font-weight="900" fill="${ok?'#fff':'#9aa6b5'}" font-family="Zen Maru Gothic,sans-serif">${label||g}</text></svg>`;
+}
+function renderHero(){
+  const g=st.g,L=ofG(g),d=doneN(L),left=L.length-d,nx=L.find(u=>sv(u.id)<2);
+  document.documentElement.style.setProperty('--w',W[g-1][1]);
+  $('#stars').innerHTML=STAR('#ffbf1f','#fff')+'<span>'+doneN(U)+'</span>';
+  const dots=L.map(u=>`<i class="${['','h','d'][sv(u.id)]}"></i>`).join('');
+  const lab=`${g}年生・${S().nm}`;
+  if(nx){
+    $('#next').innerHTML=`<p class="eyebrow">${lab}　つぎのめあて</p><div class="goal">${nx.nm}</div>
+    <p class="left">あと${left}こで ${g}年生の${S().nm}クリア！</p><div class="dots">${dots}</div><button class="go" data-open="${nx.id}">ここからはじめる</button>`;
+    $('#bub').textContent=d===0?'さいしょの1こ、いっしょにやろう！':left===1?'あと1こ！ゴールが見えたよ！':left<=3?'もうすぐメダルだよ！':'1こずつ進もう！';
+  }else{
+    $('#next').innerHTML=`<p class="eyebrow">${lab}</p><div class="goal">${g}年生の${S().nm}クリア！</div>
+    <p class="left">金のメダルをゲットしたよ</p><div class="dots">${dots}</div>${g<6?`<button class="go" data-world="${g+1}">${g+1}年生のワールドへ</button>`:''}`;
+    $('#bub').textContent='すごい！やりきったね！';
+  }
+}
+function renderSubs(){
+  $('#subs').innerHTML=SUBJ.map(s=>{const d=doneN(U.filter(u=>u.sk===s.k)),n=s.U.length;
+    return `<button class="sb ${st.sub===s.k?'on':''}" data-sub="${s.k}" style="--sc:${s.c}"><b>${s.nm}</b><small>${d}/${n}</small></button>`}).join('');
+}
+function renderWorlds(){
+  const f=S().from;
+  $('#worlds').innerHTML=W.map((w,i)=>{if(i+1<f)return'';const L=ofG(i+1),d=doneN(L);
+    return `<button class="wb ${st.g===i+1?'on':''}" data-world="${i+1}" style="--wc:${w[1]}"><span class="c" style="background:${w[1]}">${d===L.length?'★':i+1}</span>${i+1}年<small>${d}/${L.length}</small></button>`}).join('');
+  const g=st.g;$('#wname').innerHTML=`${W[g-1][0]}<span>${g}年生の${S().nm} ステージ${ofG(g).length}こ${f>1?`　（${S().nm}は${f}年生から）`:''}</span>`;
+}
+function renderRoad(){
+  const L=ofG(st.g),nx=L.find(u=>sv(u.id)<2),n=L.length,top=70;
+  const P=L.map((u,i)=>[XS[i%XS.length],top+i*H]);P.push([50,top+n*H+10]);
+  const tot=top+n*H+90;
+  const path=pts=>pts.map((p,i)=>i?`C${pts[i-1][0]},${pts[i-1][1]+H/2} ${p[0]},${p[1]-H/2} ${p[0]},${p[1]}`:`M${p[0]},${p[1]}`).join(' ');
+  let k=0;while(k<n&&sv(L[k].id)===2)k++;
+  const lit=P.slice(0,k===n?n+1:k+1);
+  const all=doneN(L)===n;
+  let h=`<svg viewBox="0 0 100 ${tot}" preserveAspectRatio="none" aria-hidden="true">
+    <path d="${path(P)}" fill="none" stroke="var(--soft)" stroke-width="22" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+    <path d="${path(P)}" fill="none" stroke="var(--line)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+    ${k>0?`<path d="${path(lit)}" fill="none" stroke="var(--w)" stroke-width="10" stroke-linecap="round" opacity=".85" vector-effect="non-scaling-stroke"/>`:''}
+  </svg><div class="start">スタート</div>`;
+  h+=L.map((u,i)=>{const s=sv(u.id),isN=nx&&nx.id===u.id;
+    return `<button class="st s${s} ${isN?'nx':''}" data-open="${u.id}" style="left:${P[i][0]}%;top:${P[i][1]}px" aria-label="${u.nm} ${LB[s]}"><span class="o">${IC[s](i+1)}${isN?`<span class="flag ${P[i][0]>50?'l':''}">つぎはここ！</span>`:''}</span><span class="t">${u.nm}</span></button>`}).join('');
+  h+=`<div class="st gl ${all?'ok':''}" style="left:50%;top:${P[n][1]}px"><span class="o">${medal(st.g,all,doneN(L)/n)}</span><span class="t">${all?'クリア！':'ゴール'}</span></div>`;
+  const r=$('#road');r.style.height=tot+'px';r.innerHTML=h;
+}
+function renderFoot(){
+  $('#medals').innerHTML=W.map((w,i)=>{const L=ofGall(i+1),d=doneN(L),ok=d===L.length;
+    return `<div class="md">${medal(i+1,ok,d/L.length)}${i+1}年生<small>${ok?'ぜんぶクリア！':'あと'+(L.length-d)+'こ'}</small></div>`}).join('');
+  $('#smedals').innerHTML=SUBJ.map(s=>`<div class="srow"><b style="color:${s.c}">${s.nm}</b><div class="mini">${[1,2,3,4,5,6].map(g=>{if(g<s.from)return '<span class="ph"></span>';const L=ofG(g,s.k),d=doneN(L);
+    return `<button class="mm" data-sub="${s.k}" data-world="${g}" aria-label="${s.nm}${g}年 ${d}/${L.length}">${medal(g,d===L.length,d/L.length,s.c)}</button>`}).join('')}</div></div>`).join('');
+  const lg=st.log.slice(-15).reverse();
+  $('#log').innerHTML=lg.length?lg.map(e=>{const d=new Date(e.t),u=byId[e.id];return u?`<li><time>${d.getMonth()+1}/${d.getDate()}</time>${SM[e.v]}<span>${SB[u.sk].nm}${u.g}年「${u.nm}」${e.app?(e.v===2?'をアプリでクリア！':'をアプリで練習した'):e.v===2?'ができた！':e.v===1?'をならった':'をもどした'}</span></li>`:''}).join(''):'<li><span style="color:var(--sub)">ステージをタップして「ならった」「できた！」をつけると、ここに足あとがのこるよ。</span></li>';
+  const c=[0,0,0];U.forEach(u=>c[sv(u.id)]++);
+  let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+  const P=[];while(P.length<U.length){const x=rnd()*2-1,y=rnd()*2-1;if(x*x+y*y<=1)P.push([150+x*120,106+y*84,rnd()*180])}
+  let s=`<ellipse cx="150" cy="252" rx="120" ry="12" fill="#23a160" opacity=".25"/><path d="M138 252 C140 210 142 180 132 150 L146 150 L150 120 L154 150 L168 150 C158 180 160 210 162 252 Z" fill="#9a6b45"/><path d="M150 165 L118 128 M150 175 L186 132" stroke="#9a6b45" stroke-width="7" stroke-linecap="round"/>`;
+  let i=0;
+  for(let k=0;k<c[2];k++,i++){const p=P[i];s+=`<ellipse cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" rx="9" ry="5.5" fill="${k%3?'#23a160':'#3cbf78'}" transform="rotate(${p[2].toFixed(0)} ${p[0].toFixed(1)} ${p[1].toFixed(1)})"/>`}
+  for(let k=0;k<c[1];k++,i++){const p=P[i];s+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="#bfe6cc"/>`}
+  $('#tree').innerHTML=s;
+  $('#treecap').textContent=c[1]+c[2]===0?'「できた！」で葉っぱがふえるよ':`葉っぱ ${c[2]}まい・つぼみ ${c[1]}こ（全${U.length}）`;
+}
+function lk(x){const v=byId[x];return `<button class="lk" data-open="${x}">${SM[sv(x)]}<span>${v.nm}</span><small>${v.g}年</small></button>`}
+function anc(id,set=new Set()){byId[id].pre.forEach(p=>{if(!set.has(p)){set.add(p);anc(p,set)}});return set}
+function openSheet(id,trace){
+  const u=byId[id],s=sv(id),sj=SB[u.sk];
+  const li=ids=>ids.length?`<div class="links">${ids.map(lk).join('')}</div>`:'<p class="none">なし</p>';
+  let tr='';
+  if(u.pre.length){tr=trace?`<h4>さかのぼると、ここが土台だよ</h4><div class="links chain">${[...anc(id)].sort((a,b)=>byId[b].g-byId[a].g).map(lk).join('')}</div>`:`<button class="trace" data-trace="${id}">むずかしいときは：土台までさかのぼる</button>`}
+  $('#panel').innerHTML=`<button class="close" data-close aria-label="とじる">×</button>
+  <div class="tag">${sj.nm}・${u.g}年生・${W[u.g-1][0]}</div><h3>${u.nm}</h3><p class="desc">${u.ds}</p>
+  <div class="seg">${LB.map((l,v)=>`<button data-v="${v}" class="${v===s?'on':''}">${SM[v]}${l}</button>`).join('')}</div>
+  ${sj.map[id]?`<a class="play" href="../${sj.app}/">${autoOf(id)===2?`${sj.nm}アプリでクリアずみ・もう一度あそぶ`:`${sj.nm}アプリであそぶ`}</a>`:''}
+  ${tr}<h4>この前に学ぶこと</h4>${li(u.pre)}<h4>この先につながること</h4>${li(next[id]||[])}`;
+  $('#panel').dataset.id=id;$('#sheet').classList.add('on');$('#panel').scrollTop=0;
+}
+const closeSheet=()=>$('#sheet').classList.remove('on');
+let tt;function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),2800)}
+function confetti(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const cs=['#ffbf1f','#f08a24','#2f86e0','#e0517a','#23a160','#8a5cd8'];
+  for(let i=0;i<28;i++){const e=document.createElement('i');e.className='cf';e.style.left=innerWidth/2+'px';e.style.top=innerHeight*.55+'px';e.style.background=cs[i%6];
+    e.style.setProperty('--dx',(Math.random()*2-1)*innerWidth*.45+'px');e.style.setProperty('--dy',(-Math.random()*innerHeight*.45-40)+'px');document.body.appendChild(e);setTimeout(()=>e.remove(),1400)}
+}
+function renderAll(){fixG();renderHero();renderSubs();renderWorlds();renderRoad();renderFoot()}
+function setView(v){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.view===v));
+  $('#v-map').classList.toggle('on',v==='map');$('#v-foot').classList.toggle('on',v==='foot');window.scrollTo(0,0);
+}
+document.addEventListener('click',e=>{
+  const t=e.target;
+  if(t.closest('.sheet')){
+    if(t.id==='sheet'||t.closest('[data-close]'))return closeSheet();
+    const id=$('#panel').dataset.id,v=t.closest('[data-v]'),tr=t.closest('[data-trace]');
+    if(v){const n=+v.dataset.v,was=sv(id);if(n!==was){st.s[id]=n;st.log.push({t:Date.now(),id,v:n});st.log=st.log.slice(-200);save();renderAll();
+      if(n===2){const u=byId[id],L=ofG(u.g,u.sk),left=L.length-doneN(L);confetti();closeSheet();
+        toast(left?`やったね！「${u.nm}」ができた！ あと${left}こで${u.g}年生の${SB[u.sk].nm}クリア`:`${u.g}年生の${SB[u.sk].nm}クリア！金のメダルをゲット！`);return}}
+      return openSheet(id)}
+    if(tr)return openSheet(tr.dataset.trace,true);
+  }
+  const o=t.closest('[data-open]');if(o){const u=byId[o.dataset.open];if(u.g!==st.g||u.sk!==st.sub){st.g=u.g;st.sub=u.sk;save();renderAll();setView('map')}return openSheet(u.id)}
+  const sb=t.closest('[data-sub]'),w=t.closest('[data-world]');
+  if(sb||w){if(sb)st.sub=sb.dataset.sub;if(w)st.g=+w.dataset.world;save();renderAll();setView('map');return}
+  const nv=t.closest('.nav [data-view]');if(nv)setView(nv.dataset.view);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
+let armed=false;
+$('#reset').addEventListener('click',e=>{e.stopPropagation();if(!armed){armed=true;e.target.textContent='もう一度おすとリセットします';setTimeout(()=>{armed=false;e.target.textContent='記録をリセット'},4000);return}
+  st={s:{},log:[],g:1,sub:st.sub,a:st.a};save();armed=false;e.target.textContent='記録をリセット';renderAll()});
+function arrive(){const nw=syncApp();renderAll();if(nw.length){setTimeout(()=>{confetti();toast(`アプリでクリアした${nw.length}こが地図にとどいたよ！`)},400)}}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)arrive()});
+arrive();
+
+}
+</script>
+</body>
+</html>
