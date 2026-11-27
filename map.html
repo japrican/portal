@@ -43,7 +43,8 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .mas{align-self:end;text-align:center}
 .mas svg{width:110px;height:auto;display:block;margin:0 auto}
 .mas .sp{width:132px;height:132px;display:none;margin:0 auto -4px;object-fit:contain}
-.chu .mas svg{display:none}.chu .mas .sp{display:block}
+.chu .mas svg{display:none}.hasmon .mas>svg{display:none}#monbox svg.mon{width:118px;height:118px;display:block;margin:0 auto;animation:bob 2.4s ease-in-out infinite}.chu #monbox{display:none}
+@keyframes bob{50%{transform:translateY(-5px)}}.chu .mas .sp{display:block}
 .stip{display:flex;gap:10px;align-items:flex-start;background:#e9f5f3;border-radius:14px;padding:10px 12px;margin:14px 0 4px}
 .stip img{width:52px;height:52px;border-radius:50%;background:#fff;flex:none;border:2px solid #0b7a6e}
 .stip p{margin:0;font-size:14px;line-height:1.6;color:#1b2430}.stip b{display:block;font-size:12px;color:#0b7a6e}
@@ -134,7 +135,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .cf{position:fixed;z-index:31;width:10px;height:14px;border-radius:3px;pointer-events:none;animation:fall 1.3s ease-out forwards}
 @keyframes fall{to{transform:translate(var(--dx),var(--dy)) rotate(540deg);opacity:0}}
-@media(max-width:600px){.hin{grid-template-columns:minmax(0,1fr) 96px}.mas svg{width:86px}.mas .sp{width:100px;height:100px}.two{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.hin{grid-template-columns:minmax(0,1fr) 96px}.mas svg{width:86px}.mas .sp{width:100px;height:100px}#monbox svg.mon{width:96px;height:96px}.two{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -143,7 +144,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
   <div class="hin">
     <div class="top"><a class="home" href="./">‹ 学びのミカタ</a><span class="stars" id="stars" aria-label="できたステージの数"></span></div>
     <div id="next"></div>
-    <div class="mas"><div class="bub" id="bub"></div><img class="sp" id="sp" alt="先輩ナビ" width="132" height="132">
+    <div class="mas"><div class="bub" id="bub"></div><div id="monbox"></div><img class="sp" id="sp" alt="先輩ナビ" width="132" height="132">
       <svg viewBox="0 0 100 112" aria-hidden="true">
         <path d="M50 30 C50 22 50 18 50 12" stroke="#2f9e5b" stroke-width="4" stroke-linecap="round"/>
         <ellipse cx="38" cy="12" rx="13" ry="7" fill="#46c07a" transform="rotate(-25 38 12)"/>
@@ -479,6 +480,27 @@ function medal(g,ok,frac,c,label){
   <circle cx="36" cy="42" r="23" fill="${ok?'#ffbf1f':'var(--card)'}"/>
   <text x="36" y="50" text-anchor="middle" font-size="${label?18:22}" font-weight="900" fill="${ok?'#fff':'#9aa6b5'}" font-family="Zen Maru Gothic,sans-serif">${label||g}</text></svg>`;
 }
+const MSYM={sansu:['+','−','×','÷','%','=','<','√'],kokugo:["あ","ア","、","。","「","」","は","を"],kanji:["字","漢","読","書","山","川","木","日"],rika:["○","△","◎","□","◇","＋","・","◯"],shakai:["〒","文","◎","♨","✕","△","○","□"],eigo:["A","B","C","?","!","a","b","c"]};
+function monFace(sk,id,ex){const h=(id*47)%360,sh=ex==='h',c1=`hsl(${h},88%,${sh?62:57}%)`,c2=`hsl(${h},95%,${sh?82:76}%)`,c3=`hsl(${h},75%,30%)`,v=id%4,K='#1c2b2a';
+ const body=[`<path d="M50 12 C80 12 90 40 88 62 C86 84 70 92 50 92 C30 92 14 84 12 62 C10 40 20 12 50 12Z" fill="${c1}"/>`,
+  `<rect x="14" y="20" width="72" height="70" rx="26" fill="${c1}"/><path d="M26 22 L32 6 L40 22Z M60 22 L68 6 L74 22Z" fill="${c3}"/>`,
+  `<path d="M50 8 L90 86 Q50 98 10 86Z" fill="${c1}" stroke="${c1}" stroke-width="10" stroke-linejoin="round"/>`,
+  `<circle cx="50" cy="56" r="38" fill="${c1}"/><circle cx="22" cy="24" r="10" fill="${c1}"/><circle cx="78" cy="24" r="10" fill="${c1}"/><circle cx="22" cy="24" r="5" fill="${c2}"/><circle cx="78" cy="24" r="5" fill="${c2}"/>`][v];
+ const one=id%3===0;let eyes,mouth,extra='';
+ if(ex==='h'){eyes=one?`<path d="M40 52 Q50 40 60 52" stroke="${K}" stroke-width="4" fill="none" stroke-linecap="round"/>`:`<path d="M31 52 Q38 43 45 52 M55 52 Q62 43 69 52" stroke="${K}" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  mouth=`<path d="M39 64 Q50 82 61 64Z" fill="${K}"/><path d="M44 72 Q50 77 56 72" stroke="#ff8fa3" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  extra=`<path d="M84 10 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3Z" fill="#fbbf24"/><path d="M14 74 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2Z" fill="#fbbf24"/><path d="M12 18 l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2Z" fill="#fbbf24"/>`}
+ else{eyes=one?`<circle cx="50" cy="50" r="13" fill="white"/><circle cx="52" cy="51" r="6" fill="${K}"/><circle cx="54" cy="48" r="2" fill="white"/>`:`<circle cx="38" cy="50" r="9" fill="white"/><circle cx="62" cy="50" r="9" fill="white"/><circle cx="39" cy="51" r="4.5" fill="${K}"/><circle cx="63" cy="51" r="4.5" fill="${K}"/><circle cx="40" cy="49" r="1.6" fill="white"/><circle cx="64" cy="49" r="1.6" fill="white"/>`;
+  if(ex==='c'){mouth=`<path d="M40 70 Q45 65 50 70 Q55 75 60 70" stroke="${K}" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+   eyes+=one?`<path d="M38 34 L60 38" stroke="${K}" stroke-width="3" stroke-linecap="round"/>`:`<path d="M30 38 L44 41 M70 38 L56 41" stroke="${K}" stroke-width="3" stroke-linecap="round"/>`;
+   extra=`<path d="M82 30 Q88 40 82 44 Q76 40 82 30Z" fill="#7cc8ff" stroke="#fff" stroke-width="1.5"/>`}
+  else mouth=id%2?`<path d="M40 68 Q50 78 60 68" stroke="${K}" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M44 69 L46 74 L48 70Z" fill="white"/>`:`<path d="M42 68 Q50 74 58 68" stroke="${K}" stroke-width="3" fill="none" stroke-linecap="round"/>`}
+ const sym=(MSYM[sk]||MSYM.rika)[id%8];
+ return `<svg class="mon" viewBox="-4 -4 108 108" aria-hidden="true">${body}<ellipse cx="50" cy="80" rx="18" ry="8" fill="${c2}"/><circle cx="28" cy="64" r="5" fill="${c2}" opacity=".9"/><circle cx="72" cy="64" r="5" fill="${c2}" opacity=".9"/>${eyes}${mouth}<text x="50" y="88" text-anchor="middle" font-size="14" font-weight="900" fill="${c3}" font-family="sans-serif">${sym}</text>${extra}</svg>`}
+function monSet(u,ex){const sj=SB[u.sk],L=sj.map&&sj.map[u.id];const m=document.getElementById('monbox');
+ if(!L){m.innerHTML='';m.dataset.k='';$('#hero').classList.remove('hasmon');return}
+ const sid=ex==='h'?L[L.length-1]:(L.find(i=>!((app[sj.k]||{})[i]>0))??L[0]),k=sj.k+sid+ex;
+ if(m.dataset.k!==k){m.innerHTML=monFace(sj.k,sid,ex);m.dataset.k=k}$('#hero').classList.add('hasmon')}
 function renderHero(){
   const g=st.g,L=ofG(g),d=doneN(L),left=L.length-d,nx=L.find(u=>sv(u.id)<2);
   document.documentElement.style.setProperty('--w',W[g-1][1]);$('#hero').classList.toggle('chu',st.lv==='chu');
@@ -489,11 +511,11 @@ function renderHero(){
     $('#next').innerHTML=`<p class="eyebrow">${lab}　つぎのめあて</p><div class="goal ${nx.nm.length>12?'xl':nx.nm.length>7?'lg':''}">${nx.nm}</div>
     <p class="left">あと${left}こで ${GL(g)}の${S().nm}クリア！</p><div class="dots">${dots}</div><button class="go" data-open="${nx.id}">ここからはじめる</button>`;
     if(st.lv==='chu'){$('#bub').innerHTML=d===0?'まずは<br>ここから！':left===1?'あと1つ！<br>ラストだよ':left<=3?'メダルまで<br>あと少し！':'1つずつ<br>積み上げよう';spSet(left<=3&&d>0?'c':'n',left<=3&&d>0?'はげます':'ふつう')}
-    else $('#bub').innerHTML=d===0?'いっしょに<br>やってみよう！':left===1?'あと1こ！<br>ゴールだよ！':left<=3?'もうすぐ<br>メダルだよ！':'1こずつ<br>進もう！';
+    else{const c=d>0&&left<=3;$('#bub').innerHTML=d===0?'ぼくに<br>勝てるかな？':left===1?'あと1こ…<br>まけそう！':c?'なかなか<br>やるな…！':'つぎは<br>ぼくの番だ！';monSet(nx,c?'c':'n')}
   }else{
     $('#next').innerHTML=`<p class="eyebrow">${lab}</p><div class="goal">${GL(g)}の${S().nm}クリア！</div>
     <p class="left">金のメダルをゲットしたよ</p><div class="dots">${dots}</div>${S().gs.includes(g+1)?`<button class="go" data-world="${g+1}">${GL(g+1)}のワールドへ</button>`:''}`;
-    if(st.lv==='chu'){$('#bub').innerHTML='やりきったね！<br>おつかれさま';spSet('h','よろこぶ')}else $('#bub').innerHTML='すごい！<br>やりきったね！';
+    if(st.lv==='chu'){$('#bub').innerHTML='やりきったね！<br>おつかれさま';spSet('h','よろこぶ')}else{$('#bub').innerHTML='まいった！<br>なかまだよ';monSet(L[L.length-1],'h')}
   }
 }
 function renderSubs(){
