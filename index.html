@@ -34,7 +34,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);border-
 .hd nav{margin-left:auto;display:flex;gap:6px}
 .hd nav a{font-size:13px;color:var(--mute);padding:6px 10px;border-radius:10px}
 .hd nav a:hover{background:var(--bg2)}
-@media(max-width:620px){.hd nav{display:none}}
+@media(max-width:620px){.hd nav{gap:0;flex:none}.hd nav a{font-size:12px;padding:6px 5px;white-space:nowrap}.hd nav a:nth-child(1),.hd nav a:nth-child(2),.hd nav a:nth-child(5){display:none}.brand small{white-space:nowrap;font-size:10px}}
 /* ヒーロー */
 .hero{overflow-x:clip;display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;padding-top:52px;padding-bottom:40px}
 .hero h1{font-size:44px;line-height:1.3;letter-spacing:.01em}
@@ -73,6 +73,14 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);border-
 @media(max-width:860px){.phones{display:none}.hero{padding-top:20px;padding-bottom:8px}.hero p.lead{font-size:15px;margin:10px 0 16px}.sec{padding:34px 0}#apps{padding-top:18px}}
 @media(max-width:420px){.hero h1{font-size:27px}.eyebrow{font-size:12px}}
 section[id]{scroll-margin-top:74px}
+.faq{max-width:760px;margin:0 auto;display:grid;gap:8px}
+.faq details{background:#fff;border:2px solid var(--line);border-radius:14px;padding:0 16px}
+.faq summary{list-style:none;cursor:pointer;padding:14px 26px 14px 0;font-family:var(--round);font-weight:800;font-size:15px;color:var(--ink);position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:after{content:"＋";position:absolute;right:0;top:13px;color:var(--blue-d)}
+.faq details[open] summary:after{content:"－"}
+.faq details p{font-size:14px;color:var(--body);padding:0 0 14px;line-height:1.8}
+.faqc{text-align:center;font-size:13px;color:var(--mute);margin-top:14px}.faqc a{color:var(--blue-d)}
 /* 使い方 */
 .sec{padding:48px 0}
 .sec.gray{background:var(--bg2)}
@@ -157,7 +165,7 @@ footer a:hover{color:var(--blue-d)}
 <body>
 <header><div class="wrap hd">
  <div class="mark" style="background:none;box-shadow:none;width:48px;height:48px"><svg viewBox="0 0 512 512" width="48" height="48" aria-hidden="true"><rect width="512" height="512" rx="112" fill="#58cc02"/><path d="M256 250V170" stroke="#fff" stroke-width="22" stroke-linecap="round"/><path d="M256 182C256 130 214 100 158 104C156 160 196 190 256 182Z" fill="#fff"/><path d="M256 170C256 124 292 96 346 98C348 150 312 178 256 170Z" fill="#e9ffd6"/><path d="M84 268C140 248 206 252 256 284C306 252 372 248 428 268V392C372 374 306 378 256 408C206 378 140 374 84 392Z" fill="#fff"/><path d="M256 284V408" stroke="#58cc02" stroke-width="12"/></svg></div><div class="brand">学びのミカタ<small>「わからない」が「できた！」に変わる</small></div>
- <nav><a href="#pick">教科を選ぶ</a><a href="map.html">学びの地図</a><a href="#price">料金</a><a href="#about">学びのミカタとは</a></nav>
+ <nav><a href="#pick">教科を選ぶ</a><a href="map.html">地図</a><a href="#price">料金</a><a href="#faq">質問</a><a href="#about">学びのミカタとは</a></nav>
 </div></header>
 
 <main>
@@ -249,7 +257,15 @@ footer a:hover{color:var(--blue-d)}
  </div>
 </section>
 
-<section class="sec" id="about">
+<section class="sec" id="faq">
+ <div class="wrap">
+  <div class="sh"><small>FAQ</small><h2>よくある質問</h2></div>
+  <div class="faq"><details><summary>どの端末で使えますか？</summary><p>スマートフォン・タブレット・パソコンの、ふつうのWebブラウザ（Safari・Chromeなど）で使えます。アプリのインストールはいりません。ホーム画面に追加すると、アプリのように開けます。</p></details><details><summary>学校の教科書とちがっても使えますか？</summary><p>はい。学習指導要領（国が決めている各学年で学ぶ内容）をもとに単元をつくっているので、どの教科書の学校でも使えます。教科書会社によって習う順番がちがうことがありますが、どの単元からでも始められます。中学英語は NEW HORIZON の順番に合わせています。</p></details><details><summary>無料体験のあと、勝手にお金がかかりませんか？</summary><p>かかりません。7日間の無料体験に登録やカードの入力はいらず、期間が終わっても自動で課金されることはありません。続けたいときだけ、おうちの方が購入してください。</p></details><details><summary>月額料金はかかりますか？</summary><p>かかりません。1回のお支払いで、ずっと使える買い切りです。</p></details><details><summary>家族で使えますか？ 何台まで使えますか？</summary><p>ご家庭でお使いの端末なら、きょうだいで使うことも、スマホとタブレットの両方で使うこともできます。購入後に表示されるページを、使いたい端末で開いてください。</p></details><details><summary>購入したあと、どうやって使いますか？</summary><p>お支払いが終わると「ご購入ありがとうございます」のページが開き、すぐに使えるようになります。そのページはブックマークしておいてください。</p></details><details><summary>「購入済み」が消えてしまったら？</summary><p>購入後に表示されたページを、もう一度開けば使えるようになります。わからないときは、購入時のメールを添えて下のアドレスまでご連絡ください。</p></details><details><summary>返金はできますか？</summary><p>デジタル商品のため、購入後の返金は原則としてお受けしていません。購入前に7日間の無料体験で中身をお確かめください。システムの不具合で使えない場合は、個別に対応します。</p></details><details><summary>広告は出ますか？ 個人情報は集めますか？</summary><p>広告は出ません。学習の記録は、お使いの端末の中にだけ保存され、こちらのサーバーには送られません。お名前などの登録もいりません。</p></details></div>
+  <p class="faqc">そのほかのご質問は <a href="mailto:studypartnerforkids@gmail.com">studypartnerforkids@gmail.com</a> まで</p>
+ </div>
+</section>
+
+<section class="sec gray" id="about">
  <div class="wrap two">
   <div class="box"><h3><span data-i="phone"></span>ホーム画面に追加すると、アプリのように開けます</h3>
    <ol><li>iPhone（Safari）：下の共有ボタン →「ホーム画面に追加」</li><li>Android（Chrome）：右上の︙メニュー →「ホーム画面に追加」</li></ol></div>
@@ -306,5 +322,16 @@ document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>
 let a0='chu';try{a0=new URLSearchParams(location.search).get('for')||localStorage.getItem('portal_aud')||'chu'}catch(e){}
 setAud(['you','sho','chu'].includes(a0)?a0:'chu');
 </script>
+<script>/* アプリ内ブラウザ（Instagram・TikTok・LINEなど）で開いたときの案内 */
+(function(){try{var u=navigator.userAgent||'';if(!/Instagram|FBAN|FBAV|Line\/|TikTok|musical_ly|BytedanceWebview|Twitter/i.test(u))return;if(sessionStorage.getItem('inapp_hide'))return;
+var ios=/iPhone|iPad|iPod/.test(u),app=/Instagram/i.test(u)?'Instagram':/Line\//i.test(u)?'LINE':/TikTok|musical_ly|Bytedance/i.test(u)?'TikTok':'アプリ',br=ios?'Safari':'Chrome';
+var d=document.createElement('div');d.id='inappBar';d.setAttribute('role','status');
+d.style.cssText='position:fixed;left:8px;right:8px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:2147483000;background:#3c3c3c;color:#fff;border-radius:16px;padding:12px 14px;box-shadow:0 8px 24px rgba(0,0,0,.25);font:700 13px/1.6 "BIZ UDPGothic","Hiragino Sans",sans-serif;max-width:520px;margin:0 auto';
+d.innerHTML='<div style="display:flex;gap:8px;align-items:flex-start"><div style="flex:1">今は'+app+'の中で開いています。無料体験や購入の記録を残すため、<b style="color:#ffc800">'+br+'で開き直して</b>ください。<br><span style="opacity:.8;font-size:12px">右上（または右下）の「…」→「ブラウザで開く」でも開けます。</span></div><button id="inappX" aria-label="とじる" style="flex:none;background:none;border:0;color:#fff;font-size:20px;line-height:1;padding:0 2px;cursor:pointer">×</button></div><button id="inappCp" style="margin-top:8px;width:100%;min-height:40px;border:0;border-radius:12px;background:#ffc800;color:#3c3c3c;font:800 14px sans-serif;cursor:pointer">このページのリンクをコピー</button>';
+document.body.appendChild(d);
+document.getElementById('inappX').onclick=function(){d.remove();try{sessionStorage.setItem('inapp_hide','1')}catch(e){}};
+document.getElementById('inappCp').onclick=function(){var b=this,l=location.href;if(navigator.clipboard)navigator.clipboard.writeText(l).then(function(){b.textContent='コピーしました！'+br+'に貼りつけて開いてね'},function(){b.textContent=l});else b.textContent=l};
+}catch(e){}})();</script>
+
 </body>
 </html>
