@@ -76,6 +76,9 @@ if(!it){
 }else{
  const [name,key,dest]=it;
  const saved=ok(key);
+ let autoMsg='';try{const L=localStorage,n=(ks,v)=>ks.filter(k=>L.getItem('app_unlocked_'+k)===v).length;
+  if(!L.getItem('bundle_sho_unlocked_v1')&&n(['sansu','kokugo-sho','kanji','rika-sho','shakai-sho','eigo'],'1')>=4){L.setItem('bundle_sho_unlocked_v1','1');autoMsg='小学生の単品が4教科そろったので、6教科すべて使えるようにしました。'}
+  if(L.getItem('bundle_unlocked_v1')!=='true'&&n(['math','english','science','kokugo','shakai','history'],'true')>=4){L.setItem('bundle_unlocked_v1','true');autoMsg='中学生の単品が4教科そろったので、6教科すべて使えるようにしました。'}}catch(e){}
  if(window.gcEv)gcEv('purchase/'+pid,'購入完了 '+name);else window.addEventListener('load',function(){window.gcEv&&gcEv('purchase/'+pid,'購入完了 '+name)});
  const set=Array.isArray(dest);
  const go=set?`<div class="apps">${dest.map(([r,n,l,c])=>`<a href="${B}${r}/"><i style="background:${c}">${l}</i>${n}</a>`).join('')}</div>`
@@ -83,6 +86,7 @@ if(!it){
  let h=`<div class="card hero"><div class="ok"><svg viewBox="0 0 24 24" width="40" height="40"><path d="M6 12.5l4 4 8-9" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
   <h1>ご購入ありがとうございます</h1>
   <p class="what"><em>${name}</em>が${set?'、6教科すべて':''}使えるようになりました。</p>
+  ${autoMsg?`<p class="note" style="color:#58a700;font-weight:800">${autoMsg}</p>`:''}
   ${saved?'':'<p class="note">※ブラウザの設定で保存ができませんでした。プライベートブラウズを切って、このページをもう一度開いてください。</p>'}
   ${set?'<p class="note">使いたい教科をえらんでください</p>':''}${go}</div>`;
  if(inApp){
