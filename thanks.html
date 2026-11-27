@@ -76,6 +76,7 @@ if(!it){
 }else{
  const [name,key,dest]=it;
  const saved=ok(key);
+ if(window.gcEv)gcEv('purchase/'+pid,'購入完了 '+name);else window.addEventListener('load',function(){window.gcEv&&gcEv('purchase/'+pid,'購入完了 '+name)});
  const set=Array.isArray(dest);
  const go=set?`<div class="apps">${dest.map(([r,n,l,c])=>`<a href="${B}${r}/"><i style="background:${c}">${l}</i>${n}</a>`).join('')}</div>`
              :`<a class="btn" href="${B}${dest}/">さっそく はじめる ▶</a>`;
@@ -103,5 +104,9 @@ if(!it){
  if(cp)cp.onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>cp.textContent='コピーしました！').catch(()=>{prompt('このリンクをコピーしてください',u)})};
 }
 </script>
+<script data-goatcounter="https://manabinomikata.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>/* アクセス解析：購入ボタンのクリックと購入完了を記録（個人は特定しない） */
+window.gcEv=function(p,t,n){n=n||0;if(window.goatcounter&&window.goatcounter.count){try{window.goatcounter.count({path:p,title:t||p,event:true})}catch(e){}}else if(n<20)setTimeout(function(){gcEv(p,t,n+1)},300)};
+document.addEventListener('click',function(e){var el=e.target.closest&&e.target.closest('a[href*="buy.stripe.com"],button[onclick*="goBuy"],a[data-buy]');if(!el)return;var app=location.pathname.split('/')[1]||'top',set=/goBuySet/.test(el.getAttribute('onclick')||'')||/セット/.test(el.textContent||'');gcEv('buy-click/'+app+(set?'/set':'/single'),'購入ボタン '+app+(set?' セット':' 単品'))},true);</script>
 </body>
 </html>
